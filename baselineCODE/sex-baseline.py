@@ -2,10 +2,7 @@ import pandas as pd
 import numpy as np
 
 df = pd.read_csv('/data/training/profile/profile.csv')
-print(df.shape)
-
-#row = df.iloc[0]['gender']
-#print(row)
+#print(df.shape)
 
 maleCNT = 0
 for index, row in df.iterrows():
@@ -18,8 +15,13 @@ for index, row in df.iterrows():
         femaleCNT += 1
 
 
-print(maleCNT)
-print(femaleCNT)
+#print(maleCNT)
+#print(femaleCNT)
 
-totalCNT = maleCNT + femaleCNT
-print(totalCNT)
+#totalCNT = maleCNT + femaleCNT
+#print(totalCNT)
+
+if maleCNT > femaleCNT:
+    print("The majority baseline gender is:  male")
+else:
+    print("The majority baseline gender is:  female")
