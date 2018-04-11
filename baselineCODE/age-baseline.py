@@ -23,7 +23,7 @@ for index, row in df.iterrows():
         ageCNTs['50-inf'] += 1
 
 
-print(ageCNT)
+#print(ageCNT)
 
 
 if ageCNT.index(max(ageCNT)) == 0:

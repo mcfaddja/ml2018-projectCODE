@@ -18,7 +18,7 @@ for row in personalities:
     tmp = row / 9500
     personalitiesAVG.append(tmp)
 
-print(personalitiesAVG)
+#print(personalitiesAVG)
 print("The average for OPE is:  " + str(personalitiesAVG[0]))
 print("The average for CON is:  " + str(personalitiesAVG[1]))
 print("The average for EXT is:  " + str(personalitiesAVG[2]))
