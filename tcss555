@@ -1,0 +1,4 @@
+#!/bin/sh
+python ml2018-projectCODE/baselineCODE/sex-baseline.py
+python ml2018-projectCODE/baselineCODE/age-baseline.py
+python ml2018-projectCODE/baselineCODE/personality-baseline.py
