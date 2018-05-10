@@ -14,13 +14,13 @@ profilesDF = pd.DataFrame(profiles)
 likes = None
 profiles = None
 
-# tempDF = pd.get_dummies(likesDF['userid'])
-# likesDF = None
-# print(tempDF)
-# tmpList = tempDF.columns.tolist()
-# print(tmpList[0])
+tempDF = pd.get_dummies(likesDF['userid'])
+likesDF = None
+print(tempDF)
+tmpList = tempDF.columns.tolist()
+print(tmpList[0])
 #tempDF = tempDF.transpose()
-tempDF = pd.crosstab(index=likesDF["userid"], columns=likesDF["like_id"]).to_sparse()
+#tempDF = pd.crosstab(index=likesDF["userid"], columns=likesDF["like_id"]).to_sparse()
 likeDF = None
 print(tempDF.shape)
 
