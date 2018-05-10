@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn import metrics
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB#, BernoulliNB, MultinomialNB
 
 
 
@@ -17,11 +17,11 @@ likesDF = None
 profilesDF = None
 
 
-ageDFo = fullDF[['like_id', 'age']]
+ageDF = fullDF[['like_id', 'age']]
 myMax = max(fullDF['age'])
-ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
-ageDF = ageDFo[['like_id', 'age_grp']]
-ageDFo = None
+ageDF['age_grp'] = pd.cut(ageDF['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageDF = ageDF[['like_id', 'age_grp']]
+#ageDFo = None
 
 genderDF = fullDF[['like_id', 'gender']]
 
@@ -33,7 +33,49 @@ neuDF = fullDF[['like_id', 'neu']]
 
 fullDF = None
 
-print(ageDF.shape)
-print(neuDF.shape)
 
-print(ageDF)
+
+
+
+
+likesTest = pd.read_csv("~/data/public-test-data/relation/relation.csv")
+profilesTest = pd.read_csv("~/data/public-test-data/profile/profile.csv")
+
+likesTestDF = pd.DataFrame(likesTest)
+profilesTestDF = pd.DataFrame(profilesTest)
+likesTest = None
+profilesTest = None
+
+fullTestDF = pd.merge(likesTestDF, profilesTestDF, on='userid')
+likesTestDF = None
+profilesTestDF = None
+
+
+ageTestDFo = fullTestDF[['like_id', 'age']]
+myTestMax = max(fullTestDF['age'])
+print(myTestMax)
+ageTestDFo['age_grp'] = pd.cut(ageTestDFo['age'], [0,25,35,50,myTestMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageTestDF = ageTestDFo[['like_id', 'age_grp']]
+ageTestDFo = None
+
+genderTestDF = fullTestDF[['like_id', 'gender']]
+
+opeTestDF = fullTestDF[['like_id', 'ope']]
+conTestDF = fullTestDF[['like_id', 'con']]
+extTestDF = fullTestDF[['like_id', 'ext']]
+argTestDF = fullTestDF[['like_id', 'agr']]
+neuTestDF = fullTestDF[['like_id', 'neu']]
+
+fullTestDF = None
+
+
+
+
+
+
+gausNB = GaussianNB()
+#like_id = ageDF['like_id']
+#age_grp = ageDF['age_grp']
+#gausNB.fit(like_id, age_grp)
+gausNB.fit(ageDF['like_id'], ageDF['age_grp'])
+print(gausNB.score(ageTestDF['like_id'], ageTestDF['age_grp']))
