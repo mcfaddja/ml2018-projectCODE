@@ -79,10 +79,10 @@ print(ageDF)
 
 
 
-kf = KFold(n_splits=10)
-print(kf.get_n_splits(likesDF))
-for train_index, test_index in kf.split(ageDF):
-    print("TRAIN: " + str(train_index) + "  TEST: " + str(test_index))
+# kf = KFold(n_splits=10)
+# print(kf.get_n_splits(likesDF))
+# for train_index, test_index in kf.split(ageDF):
+#     print("TRAIN: " + str(train_index) + "  TEST: " + str(test_index))
 
 
 #gausNB = GaussianNB()
@@ -93,4 +93,5 @@ for train_index, test_index in kf.split(ageDF):
 #gausNB.fit(ageDF, ageDF['age_grp'])
 
 bernNB = BernoulliNB()
-bernNB.fit(ageDF, 'age_grp')
+ageLikesDF = ageDF.drop(['age_grp'], axis=1)
+bernNB.fit(ageLikesDF, ageDF['age_grp'])
