@@ -1,6 +1,7 @@
 import pandas as pd
+import numpy as np
 from sklearn import metrics
-from sklearn.naive_bayes import GaussianNB#, BernoulliNB, MultinomialNB
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.model_selection import KFold
 
 
@@ -13,11 +14,21 @@ profilesDF = pd.DataFrame(profiles)
 likes = None
 profiles = None
 
-tempDF = pd.get_dummies(likesDF['userid'])
-tempDF = tempDF.transpose()
+# tempDF = pd.get_dummies(likesDF['userid'])
+# likesDF = None
+# print(tempDF)
+# tmpList = tempDF.columns.tolist()
+# print(tmpList[0])
+#tempDF = tempDF.transpose()
+tempDF = pd.crosstab(index=likesDF["userid"], columns=likesDF["like_id"]).to_sparse()
+likeDF = None
+print(tempDF.shape)
 
 fullDF = pd.merge(tempDF, profilesDF, on='userid')
 print(fullDF)
+#fullDF = pd.crosstab(index=fullDF["userid"], columns=[fullDF["age"], fullDF["gender"], fullDF["ope"], fullDF["con"], fullDF["ext"], fullDF["agr"], fullDF["neu"]], margins=True)
+#fullDF = pd.crosstab(index=likesDF["userid"], columns=likesDF["like_id"])
+#print(fullDF)
 likesDF = None
 tempDF = None
 profilesDF = None
@@ -25,8 +36,8 @@ profilesDF = None
 
 ageDFo = fullDF[['like_id', 'age']]
 myMax = max(fullDF['age'])
-# ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
-ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=[1,2,3,4])
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+#ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=[1,2,3,4])
 ageDF = ageDFo[['like_id', 'age_grp']]
 ageDFo = None
 
@@ -89,8 +100,12 @@ for train_index, test_index in kf.split(ageDF):
     print("TRAIN: " + str(train_index) + "  TEST: " + str(test_index))
 
 
-gausNB = GaussianNB()
+#gausNB = GaussianNB()
 #like_id = ageDF['like_id']
 #age_grp = ageDF['age_grp']
 #gausNB.fit(like_id, age_grp)
-gausNB.fit(ageDF, 'age_grp')
+#print(pd.isnull(ageDF))
+#gausNB.fit(ageDF, ageDF['age_grp'])
+
+bernNB = BernoulliNB()
+bernNB.fit(ageDF["like_id"], ageDF["age_grp"])
