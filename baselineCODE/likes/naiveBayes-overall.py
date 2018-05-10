@@ -24,10 +24,14 @@ fullDF = pd.merge(likesDF, profilesDF, on='userid')
 likesDF = None
 profilesDF = None
 
-ageDF = fullDF[['like_id', 'age']]
+ageDFo = fullDF[['like_id', 'age']]
 myMax = max(fullDF['age'])
+print(myMax)
+#ageDF = pd.DataFrame([fullDF['like_id']; pd.cut(fullDF['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])])
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
 
-ageDF = pd.DataFrame([fullDF['like_id'], pd.cut(ageDF['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])])
+ageDF = ageDFo[['like_id', 'age_grp']]
+ageDFo = None
 
 # ageDF = ageDFo.copy()
 # ii = 0
@@ -56,7 +60,9 @@ ageDF = pd.DataFrame([fullDF['like_id'], pd.cut(ageDF['age'], [0,25,35,50,myMax]
 
 # ageDFo = None
 
+print('age done')
 genderDF = fullDF[['like_id', 'gender']]
+print('gender done')
 opeDF = fullDF[['like_id', 'ope']]
 conDF = fullDF[['like_id', 'con']]
 extDF = fullDF[['like_id', 'ext']]
