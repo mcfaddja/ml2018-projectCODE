@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn import metrics
 from sklearn.naive_bayes import GaussianNB#, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
 
 
 
@@ -12,16 +13,24 @@ profilesDF = pd.DataFrame(profiles)
 likes = None
 profiles = None
 
-fullDF = pd.merge(likesDF, profilesDF, on='userid')
+tempDF = pd.get_dummies(likesDF['userid'])
+tempDF = tempDF.transpose()
+
+fullDF = pd.merge(tempDF, profilesDF, on='userid')
+print(fullDF)
 likesDF = None
+tempDF = None
 profilesDF = None
 
 
-ageDF = fullDF[['like_id', 'age']]
+ageDFo = fullDF[['like_id', 'age']]
 myMax = max(fullDF['age'])
-ageDF['age_grp'] = pd.cut(ageDF['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
-ageDF = ageDF[['like_id', 'age_grp']]
-#ageDFo = None
+# ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=[1,2,3,4])
+ageDF = ageDFo[['like_id', 'age_grp']]
+ageDFo = None
+
+
 
 genderDF = fullDF[['like_id', 'gender']]
 
@@ -33,49 +42,55 @@ neuDF = fullDF[['like_id', 'neu']]
 
 fullDF = None
 
+print(ageDF)
 
 
 
 
+# likesTest = pd.read_csv("~/data/public-test-data/relation/relation.csv")
+# profilesTest = pd.read_csv("~/data/public-test-data/profile/profile.csv")
 
-likesTest = pd.read_csv("~/data/public-test-data/relation/relation.csv")
-profilesTest = pd.read_csv("~/data/public-test-data/profile/profile.csv")
+# likesTestDF = pd.DataFrame(likesTest)
+# profilesTestDF = pd.DataFrame(profilesTest)
+# likesTest = None
+# profilesTest = None
 
-likesTestDF = pd.DataFrame(likesTest)
-profilesTestDF = pd.DataFrame(profilesTest)
-likesTest = None
-profilesTest = None
+# fullTestDF = pd.merge(likesTestDF, profilesTestDF, on='userid')
+# likesTestDF = None
+# profilesTestDF = None
 
-fullTestDF = pd.merge(likesTestDF, profilesTestDF, on='userid')
-likesTestDF = None
-profilesTestDF = None
+# print(fullTestDF)
+# print(type(fullTestDF))
 
+# ageTestDFo = fullTestDF[['like_id', 'age']]
+# myTestMax = max(fullTestDF['age'])
+# print(myTestMax)
+# ageTestDFo['age_grp'] = pd.cut(ageTestDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+# ageTestDF = ageTestDFo[['like_id', 'age_grp']]
+# ageTestDFo = None
 
-ageTestDFo = fullTestDF[['like_id', 'age']]
-myTestMax = max(fullTestDF['age'])
-print(myTestMax)
-ageTestDFo['age_grp'] = pd.cut(ageTestDFo['age'], [0,25,35,50,myTestMax], right=False, labels=['xx-24','25-34','35-49','50+'])
-ageTestDF = ageTestDFo[['like_id', 'age_grp']]
-ageTestDFo = None
+# genderTestDF = fullTestDF[['like_id', 'gender']]
 
-genderTestDF = fullTestDF[['like_id', 'gender']]
+# opeTestDF = fullTestDF[['like_id', 'ope']]
+# conTestDF = fullTestDF[['like_id', 'con']]
+# extTestDF = fullTestDF[['like_id', 'ext']]
+# argTestDF = fullTestDF[['like_id', 'agr']]
+# neuTestDF = fullTestDF[['like_id', 'neu']]
 
-opeTestDF = fullTestDF[['like_id', 'ope']]
-conTestDF = fullTestDF[['like_id', 'con']]
-extTestDF = fullTestDF[['like_id', 'ext']]
-argTestDF = fullTestDF[['like_id', 'agr']]
-neuTestDF = fullTestDF[['like_id', 'neu']]
+# fullTestDF = None
 
-fullTestDF = None
-
+# print(ageTestDF)
 
 
 
+kf = KFold(n_splits=10)
+print(kf.get_n_splits(ageDF))
+for train_index, test_index in kf.split(ageDF):
+    print("TRAIN: " + str(train_index) + "  TEST: " + str(test_index))
 
 
 gausNB = GaussianNB()
 #like_id = ageDF['like_id']
 #age_grp = ageDF['age_grp']
 #gausNB.fit(like_id, age_grp)
-gausNB.fit(ageDF['like_id'], ageDF['age_grp'])
-print(gausNB.score(ageTestDF['like_id'], ageTestDF['age_grp']))
+gausNB.fit(ageDF, 'age_grp')
