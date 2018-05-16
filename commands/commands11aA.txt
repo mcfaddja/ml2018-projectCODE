@@ -37,6 +37,8 @@ for uid in unqLikesUIDs:
 from sklearn.feature_extraction import DictVectorizer
 v = DictVectorizer()
 comeON=v.fit_transform(tryTHIS)
+
+
 profUIDs=profiles.ix[:,1].values
 profAGEs=profiles.ix[:,2].values
 profSEXs=profiles.ix[:,3].values
@@ -45,9 +47,11 @@ profCONs=profiles.ix[:,5].values
 profEXTs=profiles.ix[:,6].values
 profAGRs=profiles.ix[:,7].values
 profNEUs=profiles.ix[:,8].values
+
 from sklearn import metrics
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.model_selection import KFold
+
 profUIDs0 = profUIDs.reshape(9500,1)
 profAGEs0 = profAGEs.reshape(9500,1)
 profSEXs0 = profSEXs.reshape(9500,1)
@@ -56,6 +60,7 @@ profCONs0 = profCONs.reshape(9500,1)
 profEXTs0 = profEXTs.reshape(9500,1)
 profAGRs0 = profAGRs.reshape(9500,1)
 profNEUs0 = profNEUs.reshape(9500,1)
+
 profAGEs1 = np.concatenate((profUIDs0, profAGEs0), axis=1)
 profSEXs1 = np.concatenate((profUIDs0, profSEXs0), axis=1)
 profOPEs1 = np.concatenate((profUIDs0, profOPEs0), axis=1)
@@ -63,6 +68,14 @@ profCONs1 = np.concatenate((profUIDs0, profCONs0), axis=1)
 profEXTs1 = np.concatenate((profUIDs0, profEXTs0), axis=1)
 profAGRs1 = np.concatenate((profUIDs0, profAGRs0), axis=1)
 profNEUs1 = np.concatenate((profUIDs0, profNEUs0), axis=1)
+
+profUIDs
+profAGEs
+profSEXs
+profOPEs
+
+
+
 
 profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
 ageDFo = profiles[['userid', 'age']].copy()
