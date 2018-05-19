@@ -2,7 +2,7 @@ sudo apt-get install python python3 python-dev python3-dev python-nump* python3-
 
 sudo pip3 install sparse scikit-sparse sparray scikits.sparse SparseMatrixTools sparsereg sparseutils spglm pysapc h5sparse Biclustering-SSVD sppy ssvd pysparse matrix-io betterspy sparse_filtering sparse_vector svdRec sba svmloader sklearn-contrib-lightning pyviennacl easyspc btable-py csc-pysparse sparsesvd tensorcore matrix-decomposition
 
-sudo apt-get install python python3 python-dev python3-dev python-pip python3-pip tmux htop sudo nano build-essential cmake automake autoconf m4 libtool net-tools sysstat awscli aws-status ec2-* pixz pigz pbzip2 unzip zip p7zi* xfsdump xfslibs-dev xfsprogs jfsutils e2fsck-static e2fslibs-dev e2fsprogs --install-recommends
+sudo apt-get install python python3 python-dev python3-dev python-pip python3-pip tmux htop sudo nano build-essential cmake automake autoconf m4 libtool net-tools sysstat awscli aws-status ec2-* pixz pigz pbzip2 unzip zip p7zi* xfsdump xfslibs-dev xfsprogs jfsutils e2fsck-static e2fslibs-dev e2fsprogs wget git curl ssh-askpass zfs-dkms zfs-doc zfs-initramfs zfsnap zfsutils-linux --install-recommends
 
 sudo pip3 install numpy sklearn pandas scipy readline scikit-metrics scikit-plot scikit-learn sklearn-pandas sklearn-extensions pandas_ext pandas-montecarlo pandas-multiprocessing pandas-profiling joblib tensorflow
 
