@@ -17,6 +17,8 @@ from sklearn import linear_model
 from sklearn.externals import joblib
 import timeit
 import time
+import csv
+
 likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
 likesUIDs = likes.ix[:,1].values
 likesLIDs = likes.ix[:,2].values
@@ -132,24 +134,34 @@ for nEST in numTOtry:
 	scoreTIMES.append(tTot)
 	print(tTot)
 
-testScores = []
-fitTIMES = []
-scoreTIMES = []
-numTOtry = [5, 10, 15, 20, 25, 30, 40, 45, 50, 60, 75, 80, 90, 100, 120, 125, 150, 160, 180, 200, 240, 250]
-for nEST in numTOtry:
-	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
-	t0 = time.time()
-	randForrR.fit(trainX, yTrain)
-	tTot = time.time() - t0
-	fitTIMES.append(tTot)
-	print(tTot)
-	score = 0.0
-	t0 = time.time()
-	score = randForrR.score(testX, yTest)
-	tTot = time.time() - t0
-	print(score)
-	testScores.append(score)
-	scoreTIMES.append(tTot)
-	print(tTot)
+ALLnumTOtry = []
+ALLtestScores = []
+ALLfitTIMES = []
+ALLscoreTIMES = []
+
+for i in range(4):
+    testScores = []
+    fitTIMES = []
+    scoreTIMES = []
+    numTOtry = [5, 10, 15, 20, 25, 30, 40, 45, 50, 60, 75, 80, 90, 100, 120, 125, 150, 160, 180, 200, 240, 250]
+    for nEST in numTOtry:
+	    randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	    t0 = time.time()
+	    randForrR.fit(trainX, yTrain)
+	    tTot = time.time() - t0
+	    fitTIMES.append(tTot)
+	    print(tTot)
+	    score = 0.0
+	    t0 = time.time()
+	    score = randForrR.score(testX, yTest)
+	    tTot = time.time() - t0
+	    print(score)
+	    testScores.append(score)
+	    scoreTIMES.append(tTot)
+	    print(tTot)
+    ALLnumTOtry.append(numTOtry)
+    ALLtestSCORES.append(testScores)
+    ALLfitTIMES.append(fitTIMES)
+    ALLscoreTIMES.append(scoreTIMES)
 
 
