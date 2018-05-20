@@ -142,6 +142,7 @@ for attrib in attribs:
     svmLr = svm.LinearSVR()
 
 
+    cntIN = 0
     for train_index, test_index in kf.split(agesARR):
         trainX=likesMAT[train_index,:]
         yTrain=workARR[train_index]
@@ -238,6 +239,8 @@ for attrib in attribs:
             tmpSCR = svmLr.score(testX, yTest)
             scores['linear SVM'][label].append(tmpSCR)
 
+        cntIN+=1
+        print(cntIN)
     cnt+=1
 
 print(scores)
