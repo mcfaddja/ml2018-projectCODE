@@ -202,11 +202,11 @@ for attrib in attribs:
         print("start gradient boost")
         if cnt < 2:
             gradBoostC.fit(trainX, yTrain)
-            tmpSCR = gradBoostC.score(trainX, yTest)
+            tmpSCR = gradBoostC.score(testX, yTest)
             scores['grad boost'][label].append(tmpSCR)
         else:
             gradBoostR.fit(trainX, yTrain)
-            tmpSCR = gradBoostR.score(trainX, yTest)
+            tmpSCR = gradBoostR.score(testX, yTest)
             scores['grad boost'][label].append(tmpSCR)
 
         print("start stochastic gradient descent")
