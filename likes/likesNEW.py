@@ -152,11 +152,11 @@ for attrib in attribs:
         if cnt < 2:
             randForrC.fit(trainX, yTrain)
             tmpSCR = randForrC.score(testX, yTest)
-            scores['randForr'][label].append(tmpSCR)
+            scores['rand Forest'][label].append(tmpSCR)
         else: 
             randForrR.fit(trainX, yTrain)
             tmpSCR = randForrR.score(testX, yTest)
-            scores['randForr'][label].append(tmpSCR)
+            scores['rand Forest'][label].append(tmpSCR)
 
         print("start adaBoost")
         if cnt < 2:
@@ -192,21 +192,21 @@ for attrib in attribs:
         if cnt < 2:
             bernNB.fit(trainX, yTrain)
             tmpSCR = bernNB.score(testX, yTest)
-            scores['bernNB'][label].append(tmpSCR)
+            scores['bern NB / gauss ridge'][label].append(tmpSCR)
         else:
             gausRidge.fit(trainX, yTrain)
             tmpSCR = gausRidge.score(testX, yTest)
-            scores['bernNB'][label].append(tmpSCR)
+            scores['bern NB / gauss ridge'][label].append(tmpSCR)
 
         print("start gradient boost")
         if cnt < 2:
             gradBoostC.fit(trainX, yTrain)
             tmpSCR = gradBoostC.score(trainX, yTest)
-            scores['gradBoost'][label].append(tmpSCR)
+            scores['grad boost'][label].append(tmpSCR)
         else:
             gradBoostR.fit(trainX, yTrain)
             tmpSCR = gradBoostR.score(trainX, yTest)
-            scores['gradBoost'][label].append(tmpSCR)
+            scores['grad boost'][label].append(tmpSCR)
 
         print("start stochastic gradient descent")
         if cnt < 2:
@@ -232,11 +232,11 @@ for attrib in attribs:
         if cnt < 2:
             svmLc.fit(trainX, yTrain)
             tmpSCR = svmLc.score(testX, yTest)
-            scores['linearSVM'][label].append(tmpSCR)
+            scores['linear SVM'][label].append(tmpSCR)
         else:
             svmLr.fit(trainX, yTrain)
             tmpSCR = svmLr.score(testX, yTest)
-            scores['linearSVM'][label].append(tmpSCR)
+            scores['linear SVM'][label].append(tmpSCR)
 
     cnt+=1
 
