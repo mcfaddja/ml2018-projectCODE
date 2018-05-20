@@ -170,21 +170,21 @@ for attrib in attribs:
 
         print("start bagging withOUT out-of-bag")
         if cnt < 2:
-            bagCoobN.fit(testX, yTrain)
+            bagCoobN.fit(trainX, yTrain)
             tmpSCR = bagCoobN.score(testX, yTest)
             scores['bagging (NO out of bag)'][label].append(tmpSCR)
         else:
-            bagRoobN.fit(testX, yTrain)
+            bagRoobN.fit(trainX, yTrain)
             tmpSCR = bagRoobN.score(testX, yTest)
             scores['bagging (NO out of bag)'][label].append(tmpSCR)
 
         print("start bagging WITH out-of-bag")
         if cnt < 2:
-            bagCoobY.fit(testX, yTrain)
+            bagCoobY.fit(trainX, yTrain)
             tmpSCR = bagCoobY.score(testX, yTest)
             scores['bagging (YES out of bag)'][label].append(tmpSCR)
         else:
-            bagRoobY.fit(testX, yTrain)
+            bagRoobY.fit(trainX, yTrain)
             tmpSCR = bagRoobY.score(testX, yTest)
             scores['bagging (YES out of bag)'][label].append(tmpSCR)
 
