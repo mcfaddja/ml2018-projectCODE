@@ -105,7 +105,9 @@ scores = {'rand Forest': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [],
 attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
 labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
 
-kf = KFold(n_splits=4)
+kf = KFold(n_splits=10)
+
+nJOBS = 16
 
 cnt=0
 for attrib in attribs:
@@ -114,32 +116,32 @@ for attrib in attribs:
     print(label)
 
 
-    randForrC = RandomForestClassifier(n_jobs=7, n_estimators=100)
-    randForrR = RandomForestRegressor(n_jobs=7, n_estimators=100)
+    randForrC = RandomForestClassifier(n_jobs=nJOBS, n_estimators=500)
+    randForrR = RandomForestRegressor(n_jobs=nJOBS, n_estimators=500)
 
-    adaBoostC = AdaBoostClassifier(n_estimators=50)
-    adaBoostR = AdaBoostRegressor(n_estimators=50)
+    adaBoostC = AdaBoostClassifier(n_estimators=250)
+    adaBoostR = AdaBoostRegressor(n_estimators=250)
 
-    bagCoobN = BaggingClassifier(n_estimators=100, n_jobs=7)
-    bagRoobN = BaggingRegressor(n_estimators=100, n_jobs=7)
+    bagCoobN = BaggingClassifier(n_estimators=500, n_jobs=nJOBS)
+    bagRoobN = BaggingRegressor(n_estimators=500, n_jobs=nJOBS)
 
-    bagCoobY = BaggingClassifier(n_estimators=50, oob_score=True, n_jobs=7)
-    bagRoobY = BaggingRegressor(n_estimators=50, oob_score=True, n_jobs=7)
+    bagCoobY = BaggingClassifier(n_estimators=250, oob_score=True, n_jobs=nJOBS)
+    bagRoobY = BaggingRegressor(n_estimators=250, oob_score=True, n_jobs=nJOBS)
 
     bernNB = BernoulliNB()
-    gausRidge = linear_model.Ridge()
+    gausRidge = linear_model.Ridge(max_iter=1e9, tol=1e-6)
     
-    gradBoostC = GradientBoostingClassifier(n_estimators=100, max_depth=1000)
-    gradBoostR = GradientBoostingRegressor(n_estimators=100, max_depth=1000)
+    gradBoostC = GradientBoostingClassifier(n_estimators=500, max_depth=2500)
+    gradBoostR = GradientBoostingRegressor(n_estimators=500, max_depth=2500)
 
-    sdgC = linear_model.SGDClassifier()
+    sdgC = linear_model.SGDClassifier(n_jobs=nJOBS)
     sdgR = linear_model.SGDRegressor()
 
-    svmC = svm.SVC()
-    svmR = svm.SVR()
+    svmC = svm.SVC(tol=1e-6)
+    svmR = svm.SVR(tol=1e-6)
 
-    svmLc = svm.LinearSVC()
-    svmLr = svm.LinearSVR()
+    svmLc = svm.LinearSVC(tol=1e-6)
+    svmLr = svm.LinearSVR(tol=1e-6)
 
 
     cntIN = 0
