@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 
 
-likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
 
 likesUIDs = likes.ix[:,1].values
 likesLIDs = likes.ix[:,2].values
@@ -55,7 +55,7 @@ v = DictVectorizer()
 likesMAT=v.fit_transform(tryTHIS)
 
 
-profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
 profiles=profilesDF.ix[:,1:9].values.copy()
 profilesLSo=profiles.tolist().copy()
 
@@ -93,11 +93,44 @@ neusARR=np.array(profsTOlikes1[7])
 scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 #'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
 'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
 
+gausNB = GaussianNB()
+bernNB = BernoulliNB()
+multNB = MultinomialNB()
+
+# gausNBage = GaussianNB()
+# bernNBage = BernoulliNB()
+# multNBage = MultinomialNB()
+
+# gausNBsex = GaussianNB()
+# bernNBsex = BernoulliNB()
+# multNBsex = MultinomialNB()
+
+# gausNBope = GaussianNB()
+# bernNBope = BernoulliNB()
+# multNBope = MultinomialNB()
+
+# gausNBcon = GaussianNB()
+# bernNBcon = BernoulliNB()
+# multNBcon = MultinomialNB()
+
+# gausNBext = GaussianNB()
+# bernNBext = BernoulliNB()
+# multNBext = MultinomialNB()
+
+# gausNBagr = GaussianNB()
+# bernNBagr = BernoulliNB()
+# multNBagr = MultinomialNB()
+
+# gausNBneu = GaussianNB()
+# bernNBneu = BernoulliNB()
+# multNBneu = MultinomialNB()
 
 attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
 labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
@@ -112,21 +145,17 @@ for attrib in attribs:
 
     randForrC = RandomForestClassifier(n_jobs=7, n_estimators=15)
     randForrR = RandomForestRegressor(n_jobs=7, n_estimators=10)
-    
-    adaBoostC = AdaBoostClassifier(n_estimators=50)
-    adaBoostR = AdaBoostRegressor(n_estimators=50)
-
+    #adaBoostC = AdaBoostClassifier(n_estimators=50)
+    #gausNB = GaussianNB()
     bernNB = BernoulliNB()
-    gausRidge = linear_model.Ridge()
-    
+    bayesRidge = linear_model.BayesianRidge()
     #sdgC = linear_model.SGDClassifier()
     #sdgR = linear_model.SGDRegressor()
-    
+    #linear_model.Ridge()
+    #multNB = MultinomialNB()
     #gradBoostC =  GradientBoostingClassifier(n_estimators=100, max_depth=1000)
-
     svmC = svm.SVC()
     svmR = svm.SVR()
-
     svmLc = svm.LinearSVC()
     svmLr = svm.LinearSVR()
 
@@ -136,12 +165,13 @@ for attrib in attribs:
         testX=likesMAT[test_index,:]
         yTest=workARR[test_index]
 
-        print("start random forrest")
         if cnt < 2:
+            print("start random forrest")
             randForrC.fit(trainX, yTrain)
             tmpSCR = randForrC.score(testX, yTest)
             scores['randForr'][label].append(tmpSCR)
         else: 
+            print("start random forrest")
             randForrR.fit(trainX, yTrain)
             tmpSCR = randForrR.score(testX, yTest)
             scores['randForr'][label].append(tmpSCR)
@@ -150,38 +180,51 @@ for attrib in attribs:
         # adaBoostC.fit(trainX, yTrain)
         # tmpSCR = adaBoostC.score(testX, yTest)
         # scores['adaBoost'][label].append(tmpSCR)
+        
+        # print("start gaussian NB")
+        # gausNB.fit(trainX, yTrain)
+        # tmpSCR = gausNB.score(testX, yTest)
+        # scores['gausNB'][label].append(tmpSCR)
 
-        print("start bernoulli NB")
         if cnt < 2:
+            print("start bernoulli NB")
             bernNB.fit(trainX, yTrain)
             tmpSCR = bernNB.score(testX, yTest)
             scores['bernNB'][label].append(tmpSCR)
-        else:
-            gausRidge.fit(trainX, yTrain)
-            tmpSCR = gausRidge.score(testX, yTest)
-            scores['bernNB'][label].append(tmpSCR)
+        # else:
+        #     print("start bernoulli NB")
+        #     bayesRidge.fit(trainX, yTrain)
+        #     tmpSCR = bayesRidge.score(testX, yTest)
+        #     scores['bernNB'][label].append(tmpSCR)
+
+        # print("start multinomial NB")
+        # multNB.fit(trainX, yTrain)
+        # tmpSCR = multNB.score(testX, yTest)
+        # scores['multNB'][label].append(tmpSCR)
 
         # print("start gradient boost")
         # gradBoostC.fit(trainX, yTrain)
         # tmpSCR = gradBoostC.score(trainX, yTest)
         # scores['gradBoost'][label].append(tmpSCR)
 
-        print("start SVM")
-        if cnt < 2:
+        if cnt<2:
+            print("start SVM")
             svmC.fit(trainX, yTrain)
             tmpSCR = svmC.score(testX, yTest)
             scores['svm'][label].append(tmpSCR)
         else:
+            print("start SVM")
             svmR.fit(trainX, yTrain)
             tmpSCR = svmR.score(testX, yTest)
             scores['svm'][label].append(tmpSCR)
 
-        print("start LINEAR svm")
         if cnt < 2:
+            print("start LINEAR svm")
             svmLc.fit(trainX, yTrain)
             tmpSCR = svmLc.score(testX, yTest)
             scores['linearSVM'][label].append(tmpSCR)
         else:
+            print("start LINEAR svm")
             svmLr.fit(trainX, yTrain)
             tmpSCR = svmLr.score(testX, yTest)
             scores['linearSVM'][label].append(tmpSCR)
