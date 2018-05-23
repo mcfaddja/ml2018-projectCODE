@@ -155,6 +155,7 @@ for attrib in attribs:
 	svmLr = svm.LinearSVR(tol=1e-6)
 
 
+	print(label)
 	cntIN = 1
 	for train_index, test_index in kf.split(agesARR):
 		print(cntIN)		
