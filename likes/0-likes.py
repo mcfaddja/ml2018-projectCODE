@@ -82,3 +82,46 @@ del globals()['tryTHIS']
 del globals()['v']
 
 
+
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+
+	profilesLS.append(tmpLS)
+
+
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+
+
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+
+
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+
+
