@@ -68,8 +68,6 @@ del globals()['lsLikesUIDs']
 del globals()['lsLikesLIDs']
 del globals()['setLikesUIDs']
 del globals()['setLikesLIDs']
-del globals()['unqLikesUIDs']
-del globals()['unqLikesLIDs']
 del globals()['allLikesLS']
 del globals()['aDictLikes2']
 del globals()['aUID']
@@ -125,3 +123,5 @@ agrsARR=np.array(profsTOlikes1[6])
 neusARR=np.array(profsTOlikes1[7])
 
 
+del globals()['unqLikesUIDs']
+del globals()['unqLikesLIDs']
