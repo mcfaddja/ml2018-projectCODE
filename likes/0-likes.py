@@ -61,3 +61,24 @@ v = DictVectorizer()
 likesMAT=v.fit_transform(tryTHIS)
 
 
+del globals()['likes']
+del globals()['likesUIDs']
+del globals()['likesLIDs']
+del globals()['lsLikesUIDs']
+del globals()['lsLikesLIDs']
+del globals()['setLikesUIDs']
+del globals()['setLikesLIDs']
+del globals()['unqLikesUIDs']
+del globals()['unqLikesLIDs']
+del globals()['allLikesLS']
+del globals()['aDictLikes2']
+del globals()['aUID']
+del globals()['row']
+del globals()['combDICT']
+del globals()['uid']
+del globals()['tmpDICT']
+del globals()['tmpLS']
+del globals()['tryTHIS']
+del globals()['v']
+
+
