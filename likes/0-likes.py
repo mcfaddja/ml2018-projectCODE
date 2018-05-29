@@ -24,7 +24,7 @@ from sklearn.externals import joblib
 import time
 
 
-likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
 
 likesUIDs = likes.ix[:,1].values
 likesLIDs = likes.ix[:,2].values
@@ -81,7 +81,7 @@ del globals()['v']
 
 
 
-profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
 profiles=profilesDF.ix[:,1:9].values.copy()
 profilesLSo=profiles.tolist().copy()
 
@@ -135,3 +135,4 @@ del globals()['tmpAGE']
 del globals()['profsTOlikes']
 del globals()['i']
 del globals()['tmpIND']
+
