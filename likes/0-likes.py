@@ -103,7 +103,7 @@ for row in profilesLSo:
 
 
 profsTOlikes=[]
-for i in range(9500):
+for i in range(len(profilesLS)):
 	profsTOlikes.append([])
 
 for row in profilesLS:
@@ -125,3 +125,10 @@ neusARR=np.array(profsTOlikes1[7])
 
 del globals()['unqLikesUIDs']
 del globals()['unqLikesLIDs']
+del globals()['profilesDF']
+del globals()['profiles']
+del globals()['profilesLSo']
+del globals()['profilesLS']
+del globals()['row']
+del globals()['tmpLS']
+del globals()['tmpAGE']
