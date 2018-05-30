@@ -119,7 +119,7 @@ del globals()['tmpIND']
 
 
 
-randFor = RandomForestClassifier(n_estimators=10000, n_jobs=8)
+randFor = RandomForestClassifier(n_estimators=500, n_jobs=8)
 randFor.fit(likesMAT, sexsARR)
 
 joblib.dump(randFor, "/Users/jamster/randfor-A-sexs.xz", compress=9)
