@@ -122,6 +122,6 @@ del globals()['tmpIND']
 randFor = RandomForestClassifier(n_estimators=1000, n_jobs=8)
 randFor.fit(likesMAT, agesARR)
 
-joblib.dump(randFor, "/Users/jamster/randfor-A-ages.xz", compress=[9,'xz'])
+joblib.dump(randFor, "/Users/jamster/randfor-A-ages.xz", compress=9)
 
 impRandfor = joblib.load("/Users/jamster/randfor-A-ages.xz")
