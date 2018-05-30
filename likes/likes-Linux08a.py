@@ -139,7 +139,7 @@ for attrib in attribs:
 	bagCoobY = BaggingClassifier(n_estimators=25, oob_score=True, n_jobs=nJOBS)
 	bagRoobY = BaggingRegressor(n_estimators=25, oob_score=True, n_jobs=nJOBS)
 
-	bernNB = BernoulliNB()
+	bernNB = BernoulliNB(binarize=None, alpha=0.5)
 	gausRidge = linear_model.Ridge(max_iter=1e9, tol=1e-6)
 
 	gradBoostC = GradientBoostingClassifier(n_estimators=50, max_depth=250)

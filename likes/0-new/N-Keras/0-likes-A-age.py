@@ -8,20 +8,14 @@ from sklearn import metrics
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
-from sklearn.ensemble import BaggingClassifier, BaggingRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC, SVR, LinearSVR
 from sklearn import linear_model
 from keras.models import Model, Sequential
 from keras.layers import Input, Dense, Dropout, Activation
-from keras.optimizers import RMSprop, Adam
+from keras.optimizers import RMSprop, Adam, Nadam, Adamax
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
+import sys
 
 
 likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
@@ -113,14 +107,21 @@ for row in profilesLS:
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
+agesARRo=np.array(profsTOlikes1[1])
+agesARRo=agesARRo.tolist()
 
-agesARR=np.array(profsTOlikes1[1])
-sexsARR=np.array(profsTOlikes1[2])
-opesARR=np.array(profsTOlikes1[3])
-consARR=np.array(profsTOlikes1[4])
-extsARR=np.array(profsTOlikes1[5])
-agrsARR=np.array(profsTOlikes1[6])
-neusARR=np.array(profsTOlikes1[7])
+agesARR = []
+for row in agesARRo:
+	if row==1:
+		agesARR.append([1,0,0,0])
+	elif row==2:
+		agesARR.append([0,1,0,0])
+	elif row==3:
+		agesARR.append([0,0,1,0])
+	else:
+		agesARR.append([0,0,0,1])
+
+agesARR=np.array(agesARR)
 
 
 del globals()['unqLikesUIDs']
@@ -138,3 +139,80 @@ del globals()['tmpIND']
 
 
 
+seed = 7
+myRand = np.random.seed(seed)
+X_train, X_test, y_train, y_test = train_test_split(likesMAT, agesARR, test_size=1500)
+numInputs = int(likesMAT.shape[1])
+
+
+# myInputs = Input(shape=(numInputs,))
+
+# x = Sequential()
+
+
+# model = Sequential()
+# model.add(Dense(int(numInputs*1.5),
+# 				input_dim=numInputs,
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dropout(0.25))
+# model.add(Dense((numInputs*2),
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dropout(0.375))
+# model.add(Dense(int(numInputs*1.5),
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dropout(0.25))
+# model.add(Dense(numInputs,
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dense(1,kernel_initializer='uniform',activation='sigmoid'))
+
+# model.compile(optimizer='adam',
+# 				loss='binary_crossentropy',
+# 				metrics=['accuracy', 'mse'])
+
+
+# model = Sequential()
+# model.add(Dense(int(numInputs*1.5),
+# 				input_dim=numInputs,
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dropout(0.25))
+# model.add(Dense(numInputs,
+# 				kernel_initializer='uniform',
+# 				activation='relu'))
+# model.add(Dense(1,kernel_initializer='uniform',activation='sigmoid'))
+
+# model.compile(optimizer='adam',
+# 				loss='binary_crossentropy',
+# 				metrics=['accuracy', 'mse'])
+
+
+numInputs = int(sys.argv[1])
+
+model = Sequential()
+model.add(Dense(int(numInputs*1.5),
+				input_dim=int(likesMAT.shape[1]),
+				activation='relu'))
+model.add(Dropout(0.25))
+model.add(Dense((numInputs*2),
+				activation='softmax'))
+model.add(Dropout(0.375))
+model.add(Dense(int(numInputs*1.5),
+				activation='sigmoid'))
+model.add(Dropout(0.25))
+model.add(Dense(numInputs,
+				activation='relu'))
+model.add(Dense(4, activation='softmax'))
+
+model.compile(optimizer='adam',
+				loss='categorical_crossentropy',
+				metrics=['accuracy', 'mse'])
+
+model.fit(X_train, y_train, epochs=10)
+
+y_pred = model.predict(X_test)
+print('MSE with neural network:', metrics.mean_squared_error(y_test, y_pred))
+print("ages, keras: ", str(numInputs), " ", model.evaluate(X_test, y_test))

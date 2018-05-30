@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
+import sys
 
 
 likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
@@ -119,9 +120,18 @@ del globals()['tmpIND']
 
 
 
-randFor = RandomForestClassifier(n_estimators=1000, n_jobs=8)
-randFor.fit(likesMAT, agesARR)
+seed=7
+myRand=np.random.seed(seed)
+X_train, X_test, y_train, y_test = train_test_split(likesMAT, agesARR, test_size=1500)
 
-joblib.dump(randFor, "/Users/jamster/randfor-A-ages.xz", compress=9)
+nEST = int(sys.argv[2])
+nJOBS = int(sys.argv[1])
+randFor = RandomForestClassifier(n_estimators=nEST, n_jobs=nJOBS, random_state=myRand)
+#randFor.fit(likesMAT, agesARR)
+randFor.fit(X_train, y_train)
 
-impRandfor = joblib.load("/Users/jamster/randfor-A-ages.xz")
+print("ages, random forest:  ", str(nEST), " ", randFor.score(X_test, y_test))
+
+# joblib.dump(randFor, "/Users/jamster/randfor-A-ages.xz", compress=9)
+
+# impRandfor = joblib.load("/Users/jamster/randfor-A-ages.xz")
