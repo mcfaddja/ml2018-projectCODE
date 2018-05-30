@@ -5,20 +5,8 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import metrics
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold, train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
-from sklearn.ensemble import BaggingClassifier, BaggingRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC, SVR, LinearSVR
-from sklearn import linear_model
-from keras.models import Model, Sequential
-from keras.layers import Input, Dense, Dropout, Activation
-from keras.optimizers import RMSprop, Adam
+from sklearn.ensemble import RandomForestClassifier
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
@@ -113,14 +101,7 @@ for row in profilesLS:
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
-
 agesARR=np.array(profsTOlikes1[1])
-sexsARR=np.array(profsTOlikes1[2])
-opesARR=np.array(profsTOlikes1[3])
-consARR=np.array(profsTOlikes1[4])
-extsARR=np.array(profsTOlikes1[5])
-agrsARR=np.array(profsTOlikes1[6])
-neusARR=np.array(profsTOlikes1[7])
 
 
 del globals()['unqLikesUIDs']
@@ -138,3 +119,9 @@ del globals()['tmpIND']
 
 
 
+randFor = RandomForestClassifier(n_estimators=1000, n_jobs=8)
+randFor.fit(likesMAT, agesARR)
+
+joblib.dump(randFor, "/Users/jamster/randfor-A-ages.xz", compress=[9,'xz'])
+
+impRandfor = joblib.load("/Users/jamster/randfor-A-ages.xz")
