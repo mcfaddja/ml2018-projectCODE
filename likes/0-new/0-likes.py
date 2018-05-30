@@ -138,3 +138,5 @@ del globals()['tmpIND']
 
 
 
+print(likesMAT.shape)
+print(likesMAT.shape[1])
