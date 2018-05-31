@@ -131,7 +131,10 @@ bagIN = BaggingRegressor(n_jobs=nJOBS, n_estimators=nEST)
 #bagIN.fit(likesMAT, extsARR)
 bagIN.fit(X_train, y_train)
 
-print("exts, bagIN:  ", str(nEST), " ", bagIN.score(X_test, y_test))
+y_pred = bagIN.predict(X_test)
+import math
+myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
+print("exts, bagIN:  ", str(nEST), " ", myRMSE)
 
 # joblib.dump(bagIN, "/Users/jamster/bagIN-A-exts.xz", compress=9)
 
