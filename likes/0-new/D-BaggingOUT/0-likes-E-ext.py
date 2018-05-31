@@ -131,7 +131,10 @@ bagOUT = BaggingRegressor(n_jobs=nJOBS, n_estimators=nEST, oob_score=True)
 #bagOUT.fit(likesMAT, extsARR)
 bagOUT.fit(X_train, y_train)
 
-print("exts, bagOUT:  ", str(nEST), " ", bagOUT.score(X_test, y_test))
+y_pred = bagOUT.predict(X_test)
+import math
+myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
+print("exts, bagOUT:  ", str(nEST), " ", myRMSE)
 
 # joblib.dump(bagOUT, "/Users/jamster/bagOUT-A-exts.xz", compress=9)
 
