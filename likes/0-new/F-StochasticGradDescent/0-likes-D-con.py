@@ -5,23 +5,12 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import metrics
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold, train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
-from sklearn.ensemble import BaggingClassifier, BaggingRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC, SVR, LinearSVR
-from sklearn import linear_model
-from keras.models import Model, Sequential
-from keras.layers import Input, Dense, Dropout, Activation
-from keras.optimizers import RMSprop, Adam
+from sklearn.linear_model import SGDClassifier, SGDRegressor
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
+import sys
 
 
 likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
@@ -138,3 +127,21 @@ del globals()['tmpIND']
 
 
 
+seed=7
+myRand=np.random.seed(seed)
+X_train, X_test, y_train, y_test = train_test_split(likesMAT, consARR, test_size=1500)
+
+myAlpha = float(sys.argv[1])
+mySGD = SGDRegressor(alpha=myAlpha)
+
+#mySGD.fit(likesMAT, consARR)
+mySGD.fit(X_train, y_train)
+
+y_pred = mySGD.predict(X_test)
+import math
+myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
+print("cons, Stochastic Grad Descent:  ", str(myAlpha), " ", myRMSE)
+
+# joblib.dump(mySGD, "/Users/jamster/mySGD-A-cons.xz", compress=9)
+
+# impmySGD = joblib.load("/Users/jamster/mySGD-A-cons.xz")
