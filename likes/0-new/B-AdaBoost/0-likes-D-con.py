@@ -136,7 +136,7 @@ adaBoost.fit(X_train, y_train)
 y_pred = adaBoost.predict(X_test)
 import math
 myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
-print("cons, adaBoost:  ", str(nEST), " ", myRMSE)
+print("cons, adaBoost:  ", str(nEST), " ", str(lR), " ", myRMSE)
 
 # joblib.dump(adaBoost, "/Users/jamster/adaBoost-A-cons.xz", compress=9)
 

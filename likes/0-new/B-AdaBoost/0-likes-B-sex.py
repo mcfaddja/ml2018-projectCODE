@@ -133,7 +133,7 @@ adaBoost = AdaBoostClassifier(n_estimators=nEST, learning_rate=lR, random_state=
 #adaBoost.fit(likesMAT, sexsARR)
 adaBoost.fit(X_train, y_train)
 
-print("sexs, adaBoost:  ", str(nEST), " ", adaBoost.score(X_test, y_test))
+print("sexs, adaBoost:  ", str(nEST), " ", str(lR), " ", adaBoost.score(X_test, y_test))
 
 # joblib.dump(adaBoost, "/Users/jamster/adaBoost-A-sexs.xz", compress=9)
 
