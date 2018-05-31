@@ -102,14 +102,7 @@ for row in profilesLS:
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
-
-agesARR=np.array(profsTOlikes1[1])
-sexsARR=np.array(profsTOlikes1[2])
 opesARR=np.array(profsTOlikes1[3])
-consARR=np.array(profsTOlikes1[4])
-extsARR=np.array(profsTOlikes1[5])
-agrsARR=np.array(profsTOlikes1[6])
-neusARR=np.array(profsTOlikes1[7])
 
 
 del globals()['unqLikesUIDs']
