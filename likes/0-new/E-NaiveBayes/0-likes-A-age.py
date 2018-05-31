@@ -5,23 +5,12 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import metrics
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold, train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
-from sklearn.ensemble import BaggingClassifier, BaggingRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC, SVR, LinearSVR
-from sklearn import linear_model
-from keras.models import Model, Sequential
-from keras.layers import Input, Dense, Dropout, Activation
-from keras.optimizers import RMSprop, Adam
+from sklearn.naive_bayes import BernoulliNB
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
+import sys
 
 
 likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
@@ -113,14 +102,7 @@ for row in profilesLS:
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
-
 agesARR=np.array(profsTOlikes1[1])
-sexsARR=np.array(profsTOlikes1[2])
-opesARR=np.array(profsTOlikes1[3])
-consARR=np.array(profsTOlikes1[4])
-extsARR=np.array(profsTOlikes1[5])
-agrsARR=np.array(profsTOlikes1[6])
-neusARR=np.array(profsTOlikes1[7])
 
 
 del globals()['unqLikesUIDs']
@@ -138,3 +120,24 @@ del globals()['tmpIND']
 
 
 
+seed=7
+myRand=np.random.seed(seed)
+X_train, X_test, y_train, y_test = train_test_split(likesMAT, agesARR, test_size=1500)
+
+myAlpha = float(sys.argv[2])
+myBin0 = sys.argv[1]
+if myBin0 == 'None':
+	myBin = myBin0
+else:
+	myBin = float(myBin0)
+
+bernNB = BernoulliNB(alpha=myAlpha, binarize=myBin)
+
+#bernNB.fit(likesMAT, agesARR)
+bernNB.fit(X_train, y_train)
+
+print("ages, Bernoulli Naive Bays:  ", str(myBin), " ", str(myAlpha), " ", bernNB.score(X_test, y_test))
+
+# joblib.dump(randFor, "/Users/jamster/bernNB-A-ages.xz", compress=9)
+
+# impRandfor = joblib.load("/Users/jamster/bernNB-A-ages.xz")
