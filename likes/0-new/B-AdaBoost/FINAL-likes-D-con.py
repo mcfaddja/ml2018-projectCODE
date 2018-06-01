@@ -131,7 +131,7 @@ print("start training")
 
 # nEST=int(sys.argv[2])
 # lR = float(sys.argv[1])
-nEST = 100
+nEST = 500
 lR = 1.0
 adaBoost = AdaBoostRegressor(n_estimators=nEST, learning_rate=lR, random_state=myRand)
 adaBoost.fit(likesMAT, consARR)
