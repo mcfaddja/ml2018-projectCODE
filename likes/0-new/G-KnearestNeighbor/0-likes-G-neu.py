@@ -136,7 +136,7 @@ knn.fit(X_train, y_train)
 y_pred = knn.predict(X_test)
 import math
 myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
-print("agrs, K-nearest neighbor:  ", str(nNEIGHs), " ", myRMSE)
+print("neus, K-nearest neighbor:  ", str(nNEIGHs), " ", myRMSE)
 
 # joblib.dump(knn, "/Users/jamster/knn-A-neus.xz", compress=9)
 
