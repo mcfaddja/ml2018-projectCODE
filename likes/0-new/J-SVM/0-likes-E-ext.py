@@ -5,23 +5,13 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import metrics
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold, train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
-from sklearn.ensemble import BaggingClassifier, BaggingRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC, SVR, LinearSVR
+from sklearn.svm import SVC, LinearSVC, NuSVC, SVR, LinearSVR, NuSVR
 from sklearn import linear_model
-from keras.models import Model, Sequential
-from keras.layers import Input, Dense, Dropout, Activation
-from keras.optimizers import RMSprop, Adam
 import xml.etree.ElementTree as ET
 from sklearn.externals import joblib
 import time
+import sys
 
 
 likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
@@ -113,14 +103,7 @@ for row in profilesLS:
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
-
-agesARR=np.array(profsTOlikes1[1])
-sexsARR=np.array(profsTOlikes1[2])
-opesARR=np.array(profsTOlikes1[3])
-consARR=np.array(profsTOlikes1[4])
 extsARR=np.array(profsTOlikes1[5])
-agrsARR=np.array(profsTOlikes1[6])
-neusARR=np.array(profsTOlikes1[7])
 
 
 del globals()['unqLikesUIDs']
@@ -138,3 +121,20 @@ del globals()['tmpIND']
 
 
 
+seed=7
+myRand=np.random.seed(seed)
+X_train, X_test, y_train, y_test = train_test_split(likesMAT, extsARR, test_size=1500)
+
+myTOL = float(sys.argv[1])
+mySVM = SVR(tol=myTOL)
+#mySVM.fit(likesMAT, extsARR)
+mySVM.fit(X_train, y_train)
+
+y_pred = mySVM.predict(X_test)
+import math
+myRMSE = math.sqrt(metrics.mean_squared_error(y_test, y_pred))
+print("exts, SVM:  ", str(myTOL), " ", myRMSE)
+
+# joblib.dump(mySVM, "/Users/jamster/SVM-A-exts.xz", compress=9)
+
+# impSVM = joblib.load("/Users/jamster/SVM-A-exts.xz")
