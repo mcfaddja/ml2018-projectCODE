@@ -72,22 +72,6 @@ for uid in unqLikesUIDs:
     
 	combDICT[uid]=tmpDICT
 
-# import collections
-# for uid in unqLikesUIDs:
-#     tmpLS = aDictLikes2[uid]
-#     for item, count in collections.Counter(tmpLS).items():
-#         if count > 1: print(item)
-    
-print(combDICT[uid])
-print(len(combDICT))
-
-# import collections
-# print(collections.Counter(tmpLS).items())
-# print([item for item, count in collections.Counter(tmpLS).items() if count > 1])
-# for item, count in collections.Counter(tmpLS).items():
-#     if count <= 1:
-#             print(item)
-
 
 tryTHIS=[]
 for uid in unqLikesUIDs:
