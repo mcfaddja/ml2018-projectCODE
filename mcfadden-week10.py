@@ -95,7 +95,11 @@ test_unqLikesLIDs = (list(test_setLikesLIDs))
 test_allLikesLS = [test_lsLikesUIDs, [str(x) for x in test_lsLikesLIDs]]
 test_allLikesLS = list(map(list, zip(*test_allLikesLS)))
 
+# print(test_dfLIKES['userid', 'like_id'])
+# print(test_dfLIKES)
 # print(len(test_unqLikesUIDs))
+
+# test_dfLIKES.to_csv("/Users/jamster/Desktop/test.csv")
 
 # print(unqLikesLIDs[1])
 # print(test_lsLikesLIDs.index(unqLikesLIDs[1]))
@@ -149,6 +153,9 @@ test_v = DictVectorizer()
 test_likesMAT=test_v.fit_transform(test_tryTHIS)
 print("done with processing likes matrix from test data")
 
+tmp0 = test_likesMAT * np.ones((test_likesMAT.shape[1], 1))
+# print(tmp0)
+
 # print(test_likesMAT.shape)
 # print(test_likesMAT[317,:])
 # print(test_likesMAT[318,:])
@@ -201,6 +208,9 @@ test_dfPROFS = pd.read_csv(test_pathPROFs + "/profile.csv")
 test_profiles = test_dfPROFS.ix[:,1].values.copy()
 test_profilesLSo = test_profiles.tolist().copy()
 
+# print(test_profilesLSo)
+# print(len(test_profilesLSo))
+
 test_profilesLS=[]
 for row in test_profilesLSo:
 	tmpLS=row
@@ -215,10 +225,10 @@ test_profsTOlikes=[]
 for i in range(len(test_unqLikesUIDs)):
 	test_profsTOlikes.append([])
 
-# print(len(test_profsTOlikes))
-# print(test_profsTOlikes)
+# # print(len(test_profsTOlikes))
+# # print(test_profsTOlikes)
 
-# print(test_unqLikesUIDs)
+# # print(test_unqLikesUIDs)
 
 notINlist = []
 for row in test_profilesLS:
@@ -228,15 +238,25 @@ for row in test_profilesLS:
         notINlist.append(row)
     test_profsTOlikes[tmpIND]=row
 
-# print(len(test_profsTOlikes))
-# print(test_profsTOlikes)
+# # print(len(test_profsTOlikes))
+# # print(test_profsTOlikes)
 # print(len(notINlist))
+# print(notINlist)
 
 test_profsTOlikes1=list(map(list, zip(*test_profsTOlikes)))
 
 print("finished processing profile matrix from test data")
 
-# print(notINlist)
+# # print(notINlist)
+
+# print(len(test_profilesLS))
+# i=0
+# for prof in test_profilesLS:
+#     if prof in test_unqLikesUIDs:
+#         print(test_unqLikesUIDs.index(prof))
+#         i+=1
+
+# print(i)
 
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.linear_model import LinearRegression
@@ -247,12 +267,12 @@ from keras.optimizers import RMSprop, Adam, Nadam, Adamax
 from keras.models import model_from_json
 
 # json_file = open("/Users/jamster/mcfaddja-models/AGES-Keras.json", 'r')
-json_file = open("mcfaddja-models/AGES-Keras.json", 'r')
+json_file = open("/home/itadmin/mcfaddja-models/AGES-Keras.json", 'r')
 agesMODEL_json = json_file.read()
 json_file.close()
 agesMODEL = model_from_json(agesMODEL_json)
 # agesMODEL.load_weights("/Users/jamster/mcfaddja-models/AGES-Keras.h5")
-agesMODEL.load_weights("mcfaddja-models/AGES-Keras.h5")
+agesMODEL.load_weights("/home/itadmin/mcfaddja-models/AGES-Keras.h5")
 print("loaded AGES model from disk")
 
 agesMODEL.compile(optimizer='adam',
@@ -285,12 +305,12 @@ print("predictions by AGES model have been processed")
 
 
 # json_file = open("/Users/jamster/mcfaddja-models/SEXS-Keras.json", 'r')
-json_file = open("mcfaddja-models/SEXS-Keras.json", 'r')
+json_file = open("/home/itadmin/mcfaddja-models/SEXS-Keras.json", 'r')
 sexsMODEL_json = json_file.read()
 json_file.close()
 sexsMODEL = model_from_json(sexsMODEL_json)
 # sexsMODEL.load_weights("/Users/jamster/mcfaddja-models/SEXS-Keras.h5")
-sexsMODEL.load_weights("mcfaddja-models/SEXS-Keras.h5")
+sexsMODEL.load_weights("/home/itadmin/mcfaddja-models/SEXS-Keras.h5")
 print("loaded SEXS model from disk")
 
 sexsMODEL.compile(optimizer='adam',
@@ -316,18 +336,62 @@ print("predictions by SEXS model have been processed")
 
 
 
-from sklearn.externals import joblib
+# from sklearn.externals import joblib
 
-# opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
-opesMODEL = joblib.load("mcfaddja-models/SVM-A-opes.xz")
-print("loaded OPES model from disk")
+# # opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
+# opesMODEL = joblib.load("mcfaddja-models/SVM-A-opes.xz")
+# print("loaded OPES model from disk")
 
-pred_opes = opesMODEL.predict(test_likesMAT)
-# print(pred_opes)
+# pred_opes = opesMODEL.predict(test_likesMAT)
+# # print(pred_opes)
+# print("OPES model has made predictions")
+
+
+
+
+# consMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
+# print("loaded CONS model from disk")
+
+# pred_cons = consMODEL.predict(test_likesMAT)
+# print("CONS model has made predictions")
+
+
+
+
+
+# extsMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
+# print("loaded EXTS model from disk")
+
+# pred_exts = extsMODEL.predict(test_likesMAT)
+# print("EXTS model has made predictions")
+
+
+
+
+# agrsMODEL = joblib.load("mcfaddja-models/bagIN-A-agrs.xz")
+# print("loaded AGRS model from disk")
+
+# pred_agrs = agrsMODEL.predict(test_likesMAT)
+# print("AGRS model has made predictions")
+
+
+
+
+
+# neusMODEL = joblib.load("mcfaddja-models/knn-A-neus.xz")
+# print("loaded NEUS model from disk")
+
+# pred_neus = neusMODEL.predict(test_likesMAT)
+# print("NEUS model has made predictions")
 
 
 
 print("yay!")
+
+
+
+
+
 
 
 def create_xmlA(i,user):
@@ -356,20 +420,52 @@ def create_xmlA(i,user):
 
     root.set("conscientious","3.45")
 
-    root.set("open", str(np.around(pred_opes[i], decimals=2)))
+    root.set("open", "3.91")
     tree = ET.ElementTree(root)
     tree.write(sys.argv[2]+"/"+str(user)+".xml")
     # tree.write("/Users/jamster/output/"+str(user)+".xml")
 
     # return 0
 
+# def create_xmlA(i,user):
+#     root = ET.Element("user")
+#     if proc_ages[i]==1:
+# 	    root.set("age_group","xx-24")
+#     elif proc_ages[i]==2:
+#         root.set("age_group","25-34")
+#     elif proc_ages[i]==3:
+#         root.set("age_group","35-49")
+#     else:
+#         root.set("age_group","50-xx")
 
+#     if proc_sexs[i]==0:
+#         root.set("gender","male")
+#     else:
+#         root.set("gender","female")
 
-def create_xmlB(i,user):
+#     root.set("id", test_profsTOlikes[i])
+
+#     root.set("extrovert","3.49")
+
+#     root.set("neurotic", str(np.around(pred_neus[i], decimals=2)))
+
+#     root.set("agreeable", str(np.around(pred_agrs[i], decimals=2)))
+
+#     root.set("conscientious", str(np.around(pred_cons[i], decimals=2)))
+
+#     root.set("open", str(np.around(pred_opes[i], decimals=2)))
+#     tree = ET.ElementTree(root)
+#     # tree.write(sys.argv[2]+"/"+str(user)+".xml")
+#     tree.write("/Users/jamster/output/"+str(user)+".xml")
+
+    # return 0
+    
+
+def create_xmlB(user):
     root = ET.Element("user")
     root.set("age_group","xx-24")
     root.set("gender","female")
-    root.set("id", notINlist[i])
+    root.set("id", user)
     root.set("extrovert","3.49")
     root.set("neurotic","2.73")
     root.set("agreeable","3.58")
@@ -390,14 +486,22 @@ def create_xmlB(i,user):
 #     # print(i)
 
 # print(notINlist)
-for user in notINlist:
-    ind  = notINlist.index(user)
-    create_xmlB(ind, user)
+# for user in notINlist:
+#     ind  = notINlist.index(user)
+#     create_xmlB(ind, user)
 
-for user in test_profsTOlikes:
-    if user != "dummy":
+for user in test_profilesLS:
+    if user != "dummy" and user in test_profsTOlikes:
         ind = test_profsTOlikes.index(user)
         create_xmlA(ind, user)
+
+        # if user in test_unqLikesUIDs:
+        #     i2 = test_unqLikesUIDs.index(user)
+        #     print(user, " ", tmp0[ind][0])
+        #     print(user, " ", tmp0[i2][0])
+    else:
+        if user != "dummy":
+            create_xmlB(user)
 
 
 
