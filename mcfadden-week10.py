@@ -60,7 +60,8 @@ for aUID in unqLikesUIDs:
 for row in allLikesLS:
 	aDictLikes2[row[0]].append(row[1])
 
-import collections
+
+# Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
 combDICT = {}
 for uid in unqLikesUIDs:
 	tmpDICT={}
@@ -71,12 +72,14 @@ for uid in unqLikesUIDs:
     
 	combDICT[uid]=tmpDICT
 
+# import collections
 # for uid in unqLikesUIDs:
 #     tmpLS = aDictLikes2[uid]
 #     for item, count in collections.Counter(tmpLS).items():
 #         if count > 1: print(item)
     
-# print(combDICT[uid])
+print(combDICT[uid])
+print(len(combDICT))
 
 # import collections
 # print(collections.Counter(tmpLS).items())
