@@ -340,63 +340,61 @@ print("predictions by SEXS model have been processed")
 
 # Import sklearn libraries required for importing saved models
 ###############
-# from sklearn.externals import joblib
+from sklearn.externals import joblib
 
 
 
 # Import SKLearn Support Vector Machine OPEs model from file and predict
 ###############
-# # opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
-# opesMODEL = joblib.load("mcfaddja-models/SVM-A-opes.xz")
-# print("loaded OPES model from disk")
+opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
+print("loaded OPES model from disk")
 
-# pred_opes = opesMODEL.predict(test_likesMAT)
-# # print(pred_opes)
-# print("OPES model has made predictions")
+pred_opes = opesMODEL.predict(test_likesMAT)
+print("OPES model has made predictions")
 
 
 
 
 # Import SKLearn Bagging (w/ in-bag-scoring) CONs model from file and predict
 ###############
-# consMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
-# print("loaded CONS model from disk")
+consMODEL = joblib.load("/Users/jamster/mcfaddja-models/bagIN-A-cons.xz")
+print("loaded CONS model from disk")
 
-# pred_cons = consMODEL.predict(test_likesMAT)
-# print("CONS model has made predictions")
+pred_cons = consMODEL.predict(test_likesMAT)
+print("CONS model has made predictions")
 
 
 
 
 # Import SKLearn Bagging (w/ in-bag-scoring) EXTs model from file and predict
 ###############
-# extsMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
-# print("loaded EXTS model from disk")
+extsMODEL = joblib.load("/Users/jamster/mcfaddja-models/bagIN-A-cons.xz")
+print("loaded EXTS model from disk")
 
-# pred_exts = extsMODEL.predict(test_likesMAT)
-# print("EXTS model has made predictions")
+pred_exts = extsMODEL.predict(test_likesMAT)
+print("EXTS model has made predictions")
 
 
 
 
 # Import SKLearn Bagging (w/ in-bag-scoring) AGRs model from file and predict
 ###############
-# agrsMODEL = joblib.load("mcfaddja-models/bagIN-A-agrs.xz")
-# print("loaded AGRS model from disk")
+agrsMODEL = joblib.load("/Users/jamster/mcfaddja-models/bagIN-A-agrs.xz")
+print("loaded AGRS model from disk")
 
-# pred_agrs = agrsMODEL.predict(test_likesMAT)
-# print("AGRS model has made predictions")
+pred_agrs = agrsMODEL.predict(test_likesMAT)
+print("AGRS model has made predictions")
 
 
 
 
 # Import SKLearn K-Nearest Neighbors NEUs model from file and predict
 ###############
-# neusMODEL = joblib.load("mcfaddja-models/knn-A-neus.xz")
-# print("loaded NEUS model from disk")
+neusMODEL = joblib.load("/Users/jamster/mcfaddja-models/knn-A-neus.xz")
+print("loaded NEUS model from disk")
 
-# pred_neus = neusMODEL.predict(test_likesMAT)
-# print("NEUS model has made predictions")
+pred_neus = neusMODEL.predict(test_likesMAT)
+print("NEUS model has made predictions")
 
 
 
@@ -429,16 +427,16 @@ def create_xmlA(i,user):
     root.set("extrovert","3.49")
 
     # NEUs
-    root.set("neurotic","2.73")
+    root.set("neurotic", str(np.around(pred_neus[i], decimals=2)))
 
     # AGRs
-    root.set("agreeable","3.58")
+    root.set("agreeable", str(np.around(pred_agrs[i], decimals=2)))
 
     # CONs
-    root.set("conscientious","3.45")
+    root.set("conscientious", str(np.around(pred_cons[i], decimals=2)))
 
     # OPEs
-    root.set("open", "3.91")
+    root.set("open", str(np.around(pred_opes[i], decimals=2)))
 
     # Create XML Tree
     tree = ET.ElementTree(root)
@@ -448,40 +446,6 @@ def create_xmlA(i,user):
     # tree.write("/Users/jamster/output/"+str(user)+".xml")
 
 
-
-
-# def create_xmlA(i,user):
-#     root = ET.Element("user")
-#     if proc_ages[i]==1:
-# 	    root.set("age_group","xx-24")
-#     elif proc_ages[i]==2:
-#         root.set("age_group","25-34")
-#     elif proc_ages[i]==3:
-#         root.set("age_group","35-49")
-#     else:
-#         root.set("age_group","50-xx")
-
-#     if proc_sexs[i]==0:
-#         root.set("gender","male")
-#     else:
-#         root.set("gender","female")
-
-#     root.set("id", test_profsTOlikes[i])
-
-#     root.set("extrovert","3.49")
-
-#     root.set("neurotic", str(np.around(pred_neus[i], decimals=2)))
-
-#     root.set("agreeable", str(np.around(pred_agrs[i], decimals=2)))
-
-#     root.set("conscientious", str(np.around(pred_cons[i], decimals=2)))
-
-#     root.set("open", str(np.around(pred_opes[i], decimals=2)))
-#     tree = ET.ElementTree(root)
-#     # tree.write(sys.argv[2]+"/"+str(user)+".xml")
-#     tree.write("/Users/jamster/output/"+str(user)+".xml")
-
-    
 
 
 # Create XML files for users without LIKES data in the test dataset
