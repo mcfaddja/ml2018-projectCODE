@@ -1,0 +1,22 @@
+from sklearn.externals import joblib
+
+
+opeRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+opeRANDfor.fit(likesMAT, opesARR)
+joblib.dump(opeRANDfor, ‘/home/jamster/Desktop/opeRANDfor’)
+
+conRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+conRANDfor.fit(likesMAT, consARR)
+joblib.dump(conRANDfor, ‘/home/jamster/Desktop/conRANDfor’)
+
+extRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+extRANDfor.fit(likesMAT, extsARR)
+joblib.dump(extRANDfor, ‘/home/jamster/Desktop/extRANDfor’)
+
+agrRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+agrRANDfor.fit(likesMAT, agrsARR)
+joblib.dump(agrRANDfor, ‘/home/jamster/Desktop/agrRANDfor’)
+
+neuRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+neuRANDfor.fit(likesMAT, neusARR)
+joblib.dump(neuRANDfor, ‘/home/jamster/Desktop/neuRANDfor’)

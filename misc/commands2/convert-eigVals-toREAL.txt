@@ -1,0 +1,1375 @@
+range(0, 105, 10)
+print(range(0, 105, 10))
+tmp = range(0, 105, 10)
+print(tmp)
+import pandas
+range(0, 105, 10)
+tmp = range(0, 105, 10)
+print(tmp)
+for i in range(0, 105, 10):
+print(i)
+for i in range(0, 105, 10):
+	print(i)
+import pandas as pd
+data = {'uid': [1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,5,5,5,5], 'lid': ['a','c','d','a','b','e','f','b','c','d','e','b','c','e','a','c','e','d']}
+df=pd.DataFrame(data)
+data = {'uid': [1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,5,5,5,5], 'lid': ['a','c','d','a','b','e','f','b','c','d','e','b','c','e','a','c','e','d','b']}
+df=pd.DataFrame(data)
+grouped=df.groupby('uid')
+print(grouped)
+print(grouped.groups)
+dums=pd.get_dummies(df)
+print(dums)
+crs=pd.crosstab(df['uid'],df['lid'])
+print(crs)
+likes=pd.read_csv("~/data/training/relation/relation.csv")
+likesDF = pd.DataFrame(likes)
+likes = Non4
+likes = None
+profiles=pd.read_csv("~/data/training/profile/profile.csv")
+profilesDF = pd.DataFrame(profiles)
+profiles=None
+fullDF = pd.merge(likesDF, profilesDF, on='userid')
+print(fullDF.shape)
+print(fullDF.columns.tolist())
+print(fullDF)
+print(likesDF)
+print(profilesDF)
+likesDF=likesDF['userid','like_id']
+likesDF=[likesDF['userid'], likesDF['like_id']]
+print(likesDF)
+likes={'userid': likesDF['userid'], 'like_id': likesDF['like_id']}
+likes={'userid': likesDF[['userid']], 'like_id': likesDF[['like_id']]}
+likesDF=likesDF[['userid','like_id']]
+likes=pd.read_csv("~/data/training/relation/relation.csv")
+likesDF = pd.DataFrame(likes)
+likesDF=likesDF[['userid','like_id']]
+print(likesDF)
+profilesDF=profilesDF[["userid","age","gender","ent","agr","opn","neu","con"]]
+profilesDF=profilesDF[["userid","age","gender","ext","agr","ope","neu","con"]]
+print(profilesDF)
+fullDF = pd.merge(likesDF, profilesDF, on='userid')
+print(fullDF)
+testME = pd.crosstab(index=fullDF['like_id'],columns=fullDF['age'])
+print(testME)
+ageDFo = fullDF[['like_id', 'age']]
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageDF = pd.crosstab(ageDFo['age_grp'], ageDFo['like_id'])
+print(ageDF.columns.tolist())
+tmp1=ageDF.columns.tolist()
+print(tmp1[0]
+)
+print(ageDF)
+print(ageDF['age_grp'])
+print(ageDF[['age_grp']])
+ageDF = pd.DataFrame(ageDF)
+print(ageDF)
+age_grps={}
+for i in range(0,len(fullDF['age'])):
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+age_grps=ageDFo['age_grp
+age_grps=ageDFo['age_grp'].unique()
+print(age_grps)
+likeIDs=ageDFo['like_id'].unique()
+print(len(likeIDs))
+ageDF=pd.crosstab(index=[1,2,3,4],columns=ageDFo['like_id'],rowNames=age_grps)
+ageDF=pd.crosstab(index=[1,2,3,4],columns=ageDFo['like_id'],rownames=age_grps)
+print(ageDF)
+ageDF=pd.crosstab(index=ageDFo['age_grp'],columns=ageDFo['like_id'],rownames=age_grps)
+ageDF=pd.crosstab(index=ageDFo['age_grp'],columns=ageDFo['like_id'])
+tmp3=ageDF.rows.tolist()
+tmp3=ageDF['xx-24']
+tmp3=ageDF[['xx-24']]
+tmp3=ageDF[['age_grp']]
+tmp3=ageDF['age_grp']
+tmp3=ageDF['like_id']
+tmp3=ageDF(0,:)
+tmp3=ageDF[0,:]
+tmp3=ageDF.ix[0,:]
+print(size(tmp3))
+print(len(tmp3))
+ageDFoo={}
+age_grps
+age_grps=ageDFo['age_grp'].unique()
+for row in age_grps:
+	print(row)
+age_grps2=['xx-24','25-34','35-49','50+']
+for i in range(0,4):
+	name = age_grps2[i]
+	aTMP = ageDF.ix[0,:]
+	ageDFoo[name]=aTMP
+print(ageDFoo)
+ageDFoo = pd.DataFrame(ageDFoo)
+print(ageDFoo)
+history()
+	aTMP = ageDF.ix[i,:]
+ageDFoo={}
+for i in range(0,4):
+	name = age_grps2[i]
+	aTMP = ageDF.ix[0,:]
+	ageDFoo[name]=aTMP
+print(ageDFoo)
+ageDFoo={}
+for i in range(0,4):
+	name = age_grps2[i]
+	aTMP = ageDF.ix[0,:]
+	aTMP.drop(0)
+	ageDFoo[name]=aTMP
+for i in range(0,4):
+...     name = age_grps2[i]
+for i in range(0,4):
+	name=age_grps2[i]
+	aTMP = ageDF.ix[0,:]
+	print(aTMP)
+	aTMP = ageDF.ix[0,1:]
+aTMP = ageDF.ix[0,1:]
+for i in range(0,4):
+	name = age_grps(i)
+	aTMP = ageDF.ix[i,1:]
+	ageDFoo[name]=aTMP
+for i in range(0,4):
+	name = age_grps2(i)
+	aTMP = ageDF.ix[i,1:]
+	ageDFoo[name]=aTMP
+for i in range(0,4):
+	name = age_grps2[i]
+	aTMP = ageDF.ix[i,1:]
+	ageDFoo[name]=aTMP
+print(ageDFoo)
+	aTMP = ageDF.ix[i,:1]
+aTMP = ageDF.ix[i,:1]
+print(len(aTMP))
+aTMP = ageDF.ix[i,2:]
+print(len(aTMP)
+)
+aTMP = ageDF.ix[i,:]
+print(len(aTMP))
+aTMP=aTMP[1:]
+print(len(aTMP))
+print(aTMP)
+import readline
+f = open('/Users/jamster/Downloads/commands9.txt', 'w')
+for i in range(readline.get_current_history_length()):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import pandas as pd
+import numby as np
+import numy as np
+quit()
+import numpy as np
+import pandas as pd
+import scipy
+import scipy.sparse
+import readline
+likes = pd.read_csv("/home/Users/jamster/data/training/relation/relation.csv")
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix(:,1).values
+likesUIDs = likes.ix[:,1].values
+likesUIDs = likes.ix[:,1].values.tolist()
+likesLIDs = likes.ix[:,2].values.toList()
+print(likes.ix[1,2])
+likesLIDs = likes.ix[:,2].values
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikeeLIDs = set(lsLikesLIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+print(len(unqLikesUIDs))
+print(len(unqLikesLIDs))
+print(lsLikesUIDs.index(00))
+print(lsLikesUIDs.index('00'))
+print(if '00' in lsLikesUIDs)
+print(if '00' in lsLikesUIDs: print(test))
+if '00' in lsLikesUIDs:
+	print(test)
+if '00' in lsLikesUIDs:
+	print(test)
+else:
+	print(oops)
+if '00' in lsLikesUIDs:
+	print('test')
+else:
+	print('no')
+numCMDS = readline.get_current_history_length()
+for i in range(numCMDS):
+	print(readline.get_history_item(i+1))
+f = open("/Users/jamster/Desktop/commands10.txt", "w")
+for i in range(numCMDS):
+	tmp = readline.get_history_item(i+1)
+	f.write(tmp + '\n')
+f.close()
+for i in range(numCMDS):
+	print(readline.get_history_item(i+1))
+print(len(likes))
+aTest = range(0,9500)
+print(aTest)
+aTest = list(range(0,9500))
+print(aTest)
+dicLikes = {'userid': lsLikesUIDs, 'like_id': lsLikesLIDs}
+dicLikes['userid'][1]
+import sklearn
+vecIZERlikes=CountVectorizer(analyzed='word')
+vecIZERlikes=sklearn.feature_extraction.text.CountVectorizer(analyzer='word')
+import sklearn.feature_extraction
+vecIZERlikes=CountVectorizer(analyzer='word')
+vecIZERlikes=text.CountVectorizer(analyzer='word')
+import sklearn.feature_extraction.text.CountVectorizer()
+import sklearn.feature_extraction.text.CountVectorizer
+vecIZERlikes = sklearn.feature_extraction.text.CountVectorizer(analyzer='word')
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyzer='word')
+vecLIKES=vecIZER.transform(dicLikes)
+vecLIKES=vecIZER.transform(dicLikes['like_id'])
+vecIZER.fit(dicLikes['like_id'])
+dicLikes = {'userid': lsLikesUIDs, 'like_id': str(lsLikesLIDs)}
+print(dicLikes['like_id'][1])
+print(dicLikes['like_id'][100])
+dicLikes = {'userid': lsLikesUIDs, 'like_id': lsLikesLIDs}
+print(dicLikes['like_id'][100])
+dicLikes = {'userid': lsLikesUIDs, 'like_id': map(str, lsLikesLIDs)}
+print(dicLikes['like_id'][100])
+dicLikes = {'userid': lsLikesUIDs, 'like_id': map(str, input(lsLikesLIDs))}
+print(dicLikes['like_id'][100])
+myTST=map(str, lsLikesLIDs)
+print(myTST)
+myTST=map(str, input(lsLikesLIDs))
+print(myTST)
+dicLikes = {'userid': lsLikesUIDs, 'like_id': [str(x) for x in lsLikesLIDs}
+dicLikes = {'userid': lsLikesUIDs, 'like_id': [str(x) for x in lsLikesLIDs]}
+print(dicLikes['like_id'][100])
+print(dicLikes['userid'][100])
+vecIZER.fit(dicLikes['like_id'])
+someTST = vecIZER.transform(dicLikes)
+print(someTST.shape)
+vecIZER.fit(dicLikes['userid'])
+someTST = vecIZER.transform(dicLikes)
+print(someTST.shape)
+for aUid in unqLikesUIDs:
+aDictLikes2 = {}
+for aUid in unqLikesUIDs:
+	aDictLikes2[aUid]=[]
+xHuh = "?"
+for row in likes:
+	xHuh = row
+print(row)
+print(row[0])
+print(row[1])
+allLikesLS = [lsLikesUIDs, lsLikesLIDs]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+print(row[0])
+print(row[2])
+print(row[1])
+allLikesLS = [lsLikesUIDs; lsLikesLIDs]
+for first, second in allLikesLS:
+	test = 1
+print(allLikesLS[0][1]
+)
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+for row in allLikesLS:
+	dude = 1
+print(row)
+allLikesLS = list(map(allLikesLS, zip(*l)))
+allLikesLS = list(map(list, zip(*allLikesLS)))
+print(allLikesLS[0])
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+print(aDictLikes2['c6a9a43058c8cc8398ca6e97324c0fae'])
+row[1]
+aDictLikes2 = {}
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+print(aDictLikes2['c6a9a43058c8cc8398ca6e97324c0fae'])
+theMAT = vecIZERlikes(aDictLikes2)
+vecIZER.fit(dicLikes['like_id'])
+vecIZER.transform(dicLikes)
+theMAT=vecIZER.transform(aDictLikes2)
+print(theMAT.shape)
+vecIZER.fit(dicLikes['userid'])
+theMAT2=vecIZER.transform(aDictLikes2)
+print(theMAT2.shape)
+theMAT2=theMAT.transpose()
+print(theMAT2.shape)
+print(theMAT.max())
+print(theMAT.maximum(())
+vecIZER.fit(aDictLikes2)
+theMAT3=vecIZER.transform(aDictLikes2)
+print(theMAT3.shape)
+print(theMAT.nonzero())
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyze=string)
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyze='word', vocabulary=unqLikesLIDs)
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyzer='word', vocabulary=unqLikesLIDs)
+nowNOW=vecIZER.fit_transform(aDictLikes2)
+print(nowNOW.nonzero())
+aDictLikes3 = {}
+for uid in unqLikesUIDs:
+testDict={'a': ['1','2','3'], 'b':[4,5,6]}
+print(testDict['a'])
+aDictLikes3 = {'userid': [], 'like_id': []}
+for uid in unqLikesUIDs:
+	aDictLikes3['userid'].append[uid]
+	aDictLikes3['like_id'].append[""]
+aDictLikes2
+aDictLikes2['091bbf7605fa610961cc16950f12c55d']
+print(aDictLikes['091bbf7605fa610961cc16950f12c55d'])
+print(aDictLikes2['091bbf7605fa610961cc16950f12c55d'])
+cnt=0
+for uid in unqLikesUIDs:
+	tmp=aDictLikes2[uid]
+	temp=len(tmp)
+	cnt+=temp
+print(cnt)
+aDictLikes3 = {}
+for uid in unqLikesUIDs:
+	aDictLikes3[uid]=''
+for uid in unqLikesUIDs:
+	tmpLS = aDictLikes2[uid]
+	tmpSTR = ""
+	for row in tmpLS:
+		tmpSTR = tmpSTR + " " + str(row)
+for uid in unqLikesUIDs:
+	tmpLS = aDictLikes2[uid]
+	tmpSTR = ""
+	isFirst=True
+	for row in tmpLS:
+		if isFirst:
+			tmpSTR = str(row)
+			isFirst=False
+		else:
+			tmpSTR = tmpSTR + " " + str(row)
+	aDictLikes3[uid]=tmpSTR
+print(aDictLikes3['091bbf7605fa610961cc16950f12c55d']
+)
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyzer='word', vocabulary=[str(x) for x in unqLikesLIDs])
+works2=vecIZER.fit_transform(aDictLikes3)
+print(works2.shape)
+print(works2.nonzero())
+unqLikesLIDs.index(5569318595)
+unqLikesLIDs.index(5569318594)
+unqLikesLIDs.index(5569318592)
+unqLikesLIDs[0]
+aDictLikes3['091bbf7605fa610961cc16950f12c55d'].index('120460067995648')
+aDictLikes3['091bbf7605fa610961cc16950f12c55d'].count('120460067995648')
+aDictLikes3['091bbf7605fa610961cc16950f12c55d'].count('147304721968397')
+worksMAT = coo_matrix((len(unqLikesUIDs), len(unqLikesLIDs), dtype=np.int8)
+worksMAT = coo_matrix((len(unqLikesUIDs), len(unqLikesLIDs)), dtype=np.int8)
+from scipy.sparse import coo_matrix
+worksMAT = coo_matrix((len(unqLikesUIDs), len(unqLikesLIDs)), dtype=np.int8)
+cntX=0
+for uid in unqLikesUIDs:
+	cntY=0
+	for lid in unqLikesLIDs:
+cntROW = 0
+for uid in unqLikesUIDs:
+	cntCOL = 0
+	tmpSTR = aDictLikes3[uid]
+	for lid in unqLikesLIDs:
+cntROW = 0
+for uid in unqLikesUIDs:
+	cntCOL = 0
+	tmpSTR = aDictLikes3[uid]
+	tmpCNT=0
+	for lid in unqLikesLIDs:
+		tmpCNT=tmpSTR.count(str(lid))
+		if tmpCNT != 0
+cntROW = 0
+for uid in unqLikesUIDs:
+	cntCOL = 0
+	tmpSTR = aDictLikes3[uid]
+	for lid in unqLikesLIDs:
+		tmpCNT=tmpSTR.count(str(lid))
+		if tmpCNT != 0:
+workMAT = scipy.sparse.csr_matrix((len(unqLikesUIDs), len(unqLikesLIDs)), dtype=np.int8)
+cntROW = 0
+for uid in unqLikesUIDs:
+	cntCOL = 0
+	tmpSTR = aDictLikes3[uid]
+	for lid in unqLikesLIDs:
+		tmpCNT=tmpSTR.count(str(lid))
+		if tmpCNT != 0:
+			workMAT[cntROW,cntCOL]=tmpCNT
+		cntCOL+=1
+	cntROW+=1
+vecIZER = sklearn.feature_extraction.text.CountVectorizer(analyzer='char', vocabulary=[str(x) for x in unqLikesLIDs])
+vecIZER.fit(unqLikesLIDs)
+vecIZER.fit([str(x) for x in unqLikesLIDs])
+maybe=vecIZER.transform(aDictLikes2)
+print(maybe.shape)
+maybe.nonzero()
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_selection import SelectKBest, chi2
+v = DictVectorizer()
+X = v.fit_transform(aDictLikes2)
+X = v.fit_transform([likesUIDs, likesLIDs])
+likesLIDs.tostring()
+likesLIDs2 = [str(x) for x in likesLIDs]
+print(likesLIDs2)
+X = v.fit_transform([likesUIDs, likesLIDs])
+v = DictVectorizer()
+print(list(range(5))
+)
+D = []
+lsALLo=[lsLikesUIDs, lsLikesLIDs]
+lsALL=list(map(list, zip(*lsALLo)))
+D = {}
+for row in lsALL:
+	D[row[0]]=str(row[1])
+X = v.fit_transform(D)
+print(X.shape)
+D = []
+for row in lsALL:
+	D.append({row[0]: str(row[1])})
+X = v.fit_transform(D)
+print(X.shape)
+combDICT = {}
+for uid in unqLikesUIDs"
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+print(unqLikesUIDs[0])
+print(combDICT['3b64af66ffdc5566f3971e9fe5597505'])
+comeON=v.fit_transform(combDICT)
+comeON=v.fit_transform(combDICT['3b64af66ffdc5566f3971e9fe5597505'])
+print(comeON.shape)
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+comeON=v.fit_transform(tryTHIS)
+print(comeON.shape)
+print(comeON.nonzero())
+numCMDs
+numCMDs = readline.get_current_history_length()
+f = open("/Users/jamster/Desktop/commands10a.txt", "w")
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+print(comeON.shape)
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+aDictLikes2 = {}
+for aUid in unqLikesUIDs:
+	aDictLikes2[aUid]=[]
+allLikesLS = [lsLikesUIDs; lsLikesLIDs]
+allLikesLS = [lsLikesUIDs, lsLikesLIDs]
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+from sklearn.feature_extraction import DictVectorizer
+v = DictVectorizer()
+comeON=v.fit_transform(tryTHIS)
+print(comeON.shape)
+print(comeON.nonzero())
+print(type(comeON))
+spDFlikes=pd.SparseDataFrame(comeON,index=unqLikesUIDs,columns=[str(x) for x in unqLikesLIDs])
+spDFlikes=None
+numCMDs=readline.get_current_history_length()
+f=open("/Users/jamster/Desktop/commands11.txt", "w")
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, lsLikesLIDs]
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+from sklearn.feature_extraction import DictVectorizer
+v = DictVectorizer()
+comeON=v.fit_transform(tryTHIS)
+profiles=pd.read_csv("/Users/jamster/data/profile/profile.csv")
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+print(profiles.columns.tolist())
+profUIDs=profiles.ix[:,1]
+profAGEs=profiles.ix[:,2]
+profSEXs=profiles.ix[:,3]
+profOPEs=profiles.ix[:,4]
+profCONs=profiles.ix[:,5]
+profEXTs=profiles.ix[:,6]
+profAGRs=profiles.ix[:,7]
+profNEUs=profiles.ix[:,8]
+profUIDs=profiles.ix[:,1].values
+profAGEs=profiles.ix[:,2].values
+profSEXs=profiles.ix[:,3].values
+profOPEs=profiles.ix[:,4].values
+profCONs=profiles.ix[:,5].values
+profEXTs=profiles.ix[:,6].values
+profAGRs=profiles.ix[:,7].values
+profNEUs=profiles.ix[:,8].values
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+print(type(profUIDs)
+)
+print(profUIDs.shape)
+test = np.array(profUIDs,profAGEs)
+test = np.concatenate((profUIDs,profAGEs), axis=1)
+test = np.concatenate((profUIDs,profAGEs), axis=0)
+print(test.shape)
+test0=profUIDs.reshape(9500,1)
+print(test0.shape)
+test1=profAGEs.reshape(9500,1)
+test = np.concatenate((test0, test1), axis=1)
+print(test.shape)
+profUIDs0 = profUIDs.reshape(9500,1)
+profAGEs0 = profAGEs.reshape(9500,1)
+profSEXs0 = profSEXs.reshape(9500,1)
+profOPEs0 = profOPEs.reshape(9500,1)
+profCONs0 = profCONs.reshape(9500,1)
+profEXTs0 = profEXTs.reshape(9500,1)
+profAGRs0 = profAGRs.reshape(9500,1)
+profNEUs0 = profNEUs.reshape(9500,1)
+profUIDs0 = profUIDs.reshape(9500,1)
+profAGEs0 = profAGEs.reshape(9500,1)
+profSEXs0 = profSEXs.reshape(9500,1)
+profOPEs0 = profOPEs.reshape(9500,1)
+profCONs0 = profCONs.reshape(9500,1)
+profEXTs0 = profEXTs.reshape(9500,1)
+profAGRs0 = profAGRs.reshape(9500,1)
+profNEUs0 = profNEUs.reshape(9500,1)
+profAGEs1 = np.concatenate((profUIDs0, profAGEs0), axis=1)
+profSEXs1 = np.concatenate((profUIDs0, profSEXs0), axis=1)
+profOPEs1 = np.concatenate((profUIDs0, profOPEs0), axis=1)
+profCONs1 = np.concatenate((profUIDs0, profCONs0), axis=1)
+profEXTs1 = np.concatenate((profUIDs0, profEXTs0), axis=1)
+profAGRs1 = np.concatenate((profUIDs0, profAGRs0), axis=1)
+profNEUs1 = np.concatenate((profUIDs0, profNEUs0), axis=1)
+lsProfAGEs = profAGEs1.tolist()
+print(lsProfAGEs[1])
+ageDF = profiles[['userid', 'age']]
+print(ageDF.columns.tolist())
+ageDFo = profiles[['userid', 'age']]
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,myMax], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+print(ageDFo.head())
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDF = profiles[['userid', 'age']].copy()
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageGRPuids=ageDFo.ix[:,0]
+ageGRPageGRPs=ageDFo.ix[:,2]
+print(ageGRPuids.head())
+print(ageGRPageGRPs.head())
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=[1, 2, 3, 4])
+ageGRPuids=ageDFo.ix[:,0].values
+ageGRPageGRPs=ageDFo.ix[:,2].values
+print(type(ageGRPuids)
+)
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=[1, 2, 3, 4])
+ageGRPuids=ageDFo.ix[:,0].values
+ageGRPgrps=ageDFo.ix[:,2].values
+ageGRPuids0 = ageGRPgrps.reshape(9500,1)
+ageGRPgrps0 = ageGRPgrps.reshape(9500,1)
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=[1, 2, 3, 4])
+ageGRPuids=ageDFo.ix[:,0].values
+ageGRPgrps=ageDFo.ix[:,2].values
+ageGRPuids0 = ageGRPgrps.reshape(9500,1)
+print(type(ageGRPuids))
+print(ageGRPuids.shape)
+ageGRPSuids0 = ageGRPuids.reshape(9500,1)
+ageGRPSgrps0 = ageGRPgrps.reshape(9500,1)
+print(ageGRPgrps.shape)
+ageGRPSgrps0 = ageGRPgrps.reshape(9500,1)
+print(type(ageGRPgrps))
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=['xx-24','25-34','35-49','50+'])
+ageGRPuids=ageDFo.ix[:,0].values
+ageGRPgrps=ageDFo.ix[:,2].values
+print(type(ageGRPgrps))
+profiles=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+ageDFo = profiles[['userid', 'age']].copy()
+ageDFo['age_grp'] = pd.cut(ageDFo['age'], [0,25,35,50,150], right=False, labels=[1, 2, 3, 4])
+ageGRPuids=ageDFo.ix[:,0].values
+ageGRPgrps=ageDFo.ix[:,2].values
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, lsLikesLIDs]
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+from sklearn.feature_extraction import DictVectorizer
+v = DictVectorizer()
+comeON=v.fit_transform(tryTHIS)
+profUIDs=profiles.ix[:,1].values
+profAGEs=profiles.ix[:,2].values
+profSEXs=profiles.ix[:,3].values
+profOPEs=profiles.ix[:,4].values
+profCONs=profiles.ix[:,5].values
+profEXTs=profiles.ix[:,6].values
+profAGRs=profiles.ix[:,7].values
+profNEUs=profiles.ix[:,8].values
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+profUIDs0 = profUIDs.reshape(9500,1)
+profAGEs0 = profAGEs.reshape(9500,1)
+profSEXs0 = profSEXs.reshape(9500,1)
+profOPEs0 = profOPprofOPEape(9500,1)
+profCONs0 = profCONs.reshape(9500,1)
+profEXTs0 = profEXTs.reshape(9500,1)
+profAGRs0 = profAGRs.reshape(9500,1)
+profNEUs0 = profNEUs.reshape(9500,1)
+profAGEs1 = np.concatenate((profUIDs0, profAGEs0), axis=1)
+profSEXs1 = np.concatenate((profUIDs0, profSEXs0), axis=1)
+profOPEs1 = np.concatenate((profUIDs0, profOPEs0), axis=1)
+profCONs1 = np.concatenate((profUIDs0, profCONs0), axis=1)
+profEXTs1 = np.concatenate((profUIDs0, profEXTs0), axis=1)
+profAGRs1 = np.concatenate((profUIDs0, profAGRs0), axis=1)
+profNEUs1 = np.concatenate((profUIDs0, profNEUs0), axis=1)
+print(type(profAGEs1))
+test = profiles.ix[:,1:8]
+test = profiles.ix[:,1:8].values
+testLS=test.tolist()
+print(testLS[0])
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:8].values
+profilesLS=profiles.tolist()
+profilesLSo=profiles.tolist()
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+profilesLS=[]
+for row in profilesLSo:
+     tmpLS=row
+     tmpAGE=row[1]
+     if tmpAGE < 25:
+             tmpLS[1]=1
+     elif tmpAGE < 35:
+             tmpLS[1]=2
+     elif tmpAGE < 50:
+             tmpLS[1]=3
+     else:
+             tmpLS[1]=4
+print(profilesLS[10])
+profilesLS=[]
+for row in profilesLSo:
+     tmpLS=row
+     tmpAGE=row[1]
+     if tmpAGE < 25:
+             tmpLS[1]=1
+     elif tmpAGE < 35:
+             tmpLS[1]=2
+     elif tmpAGE < 50:
+             tmpLS[1]=3
+     else:
+             tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profilesLS=[]
+for row in profilesLSo:
+     tmpLS=row
+     tmpAGE=row[1]
+     if tmpAGE < 25:
+             tmpLS[1]=1
+     elif tmpAGE < 35:
+             tmpLS[1]=2
+     elif tmpAGE < 50:
+             tmpLS[1]=3
+     else:
+             tmpLS[1]=4
+	profilesLS.append(tmpLS)
+numCMDs=readline.get_current_history_length()
+for i in range((numCMDs-1)):
+f = open("/Users/jamster/Desktop/commands11aC.txt", "w")
+for i in range((numCMDs-1)):
+	f.write(readline.get_history_item(i+1) + "\n")
+f.close()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+print(profilesLS[10])
+lsLikesUIDs[1]
+profilesLS[1]
+test=[]
+test[1]=0
+test=[]
+for i in range(9500):
+	test.append([])
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = lsLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+print(tmpIND)
+print(len(lsLikesUIDs))
+print(profilesLS[1])
+print(unqLikesUIDs[1])
+	test.append([])
+profsTOlikes=[]
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+print(profsTOlikes[1])
+print(unqLikesUIDs[1])
+profsTOlikesARR=np.array(profsTOlikes)
+print(profsTOlikesARR)
+profsTOlikesARR=profsTOlikesARR.transpose()
+print(profsTOlikesARR)
+print(profsTOlikesARR[1,40])
+ages=profsTOlikes[1,:]
+ages=profsTOlikes[1,0:9500]
+print(np.arange(9500))
+ages=profsTOlikes[1,np.arange(9500)]
+ages=profsTOlikes[[1],np.arange(9500)]
+ages=profsTOlikes[[1],np.arange(9500).toarray]
+ages=profsTOlikes[[1],np.arange(9500).to_array()]
+ages=profsTOlikes[[1],np.arange(9500)]
+profsTOlikesARR=profsTOlikesARR.transpose()
+print(profsTOlikesARR)
+print(profsTOlikes[1])
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+print(profsTOlikes1[1,1])
+print(profsTOlikes1[1][1])
+agesARR=np.array(profsTOlikes1[1])
+print(agesARR.shape)
+print(comeON.shape)
+bernNB = BernoulliNB()
+bernNB.fit(comeON, agesARR)
+agesARRo=agesARR.copy()
+agesARR=agesARR.reshape(9500,1)
+bernNB.fit(comeON, agesARR)
+agesARR=np.array(profsTOlikes1[1])
+bernNB.fit(comeON, agesARR)
+bernNB.score()
+bernNB.score(comeON,agesARR)
+numCMDs=readline.get_current_history_length()
+f = open("/Users/jamster/Desktop/commands12.txt", "w")
+for i in range((numCMDs-1)):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+kf = KFold(n_splits=19)
+print(kf.get_n_splits(agesARR))
+for train_index, test_index in kf.split(agesARR):
+	print("TRAIN: " + str(train_index) + "  TEST: " + str(test_index))
+for train_index, test_index in kf.split(agesARR):
+	train=comeON[train_index,:]
+	trainY=agesARR[train_index]
+	test=comone[test_index,:
+scores=[]
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB = BernoulliNB()
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+print(scores)
+print(agesARR[:] > 1
+)
+profilesLSo[0]
+profilesLSo[111]
+profilesLS=profiles.tolist()
+profilesLSo=profiles.tolist()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+print(profilesLS[1000])
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:8].values
+profilesLS=profiles.tolist()
+profilesLSo=profiles.tolist()
+profiles=profilesDF.ix[:,1:8].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+print(profilesLS[10])
+print(profilesLS[1011])
+print(profilesLS[3011])
+print(profilesLS[3511])
+print(profilesLS[13511])
+print(profilesLS[8511])
+print(profilesLS[6511])
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+print(profsTOlikes[1])
+print(profsTOlikes[8564])
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+print(profsTOlikes1[1][8564])
+agesARR=np.array(profsTOlikes1[1])
+scores=[]
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB = BernoulliNB()
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+print(scores)
+numCMDs=readline.get_current_history_length()-1
+f = open("/Users/jamster/Desktop/commands12a.txt", "w")
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+test={'ranFor': [], 'addaboost': [], 'nbBern': [], 'nbGaus': [], 'nbMultNom': [], 'other': []}
+print(test)
+scores=[]
+bernNB = BernoulliNB()
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+print(scoresP
+)
+print(scores)
+scoresARR=np.array(scores)
+print(scoresARR.mean())
+scores=[]
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB = BernoulliNB()
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+scoresARR=np.array(scores)
+print(scoresARR.mean())
+ c = bernNB.predict(testX)
+c = bernNB.predict(testX)
+print(c)
+print(profsTOlikes[2])
+print(profsTOlikes1[2])
+print(profilesDF.columns.tolist())
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'addaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []} }
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+print(profsTOlikes1[7])
+print(profsTOlikes1[6])
+print(profsTOlikes1[0])
+print(profsTOlikes1[1])
+print(profsTOlikes1[2])
+print(profsTOlikes1[3])
+print(profsTOlikes1[4])
+print(profsTOlikes1[5])
+print(profsTOlikes1[6])
+print(profsTOlikes1[7])
+print(profilesLS[1])
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+    
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+kf = KFold(n_splits=19)
+print(attribs[5][1])
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'addaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+scores['linearSVM']['age']
+scores=[]
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB = MultinomialNB()
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+print(scores)
+scores=[]
+for train_index, test_index in kf.split(agesARR):
+	trainX=comeON[train_index,:]
+	yTrain=agesARR[train_index]
+	testX=comeON[test_index,:]
+	yTest=agesARR[test_index]
+	bernNB = MultinomialNB()
+	bernNB.fit(trainX,yTrain)
+	tmpSCORE = bernNB.score(testX,yTest)
+	scores.append(tmpSCORE)
+print(scores)
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+svmLr = svm.LinearSVR()
+svmLr.fit(trainX, yTrain)
+print(svmLr.score(testX, yTest))
+sdgR = linear_model.SGDRegressor()
+sdgR.fit(trainX, yTrain)
+print(sdgR.score(testX, yTest))
+sdgR = linear_model.SGDRegressor(max_iter=10000, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+print(sdgR.score(testX, yTest))
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-12)
+sdgR.fit(trainX, yTrain)
+print(sdgR.score(testX, yTest))
+sdgR = linear_model.SGDRegressor(max_iter=1e24, tol=1e-24)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e18, tol=1e-18)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e16, tol=1e-16)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e13, tol=1e-13)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e12, tol=1e-12)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-12)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e24, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e18, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e12, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e10, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-6)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-18)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-27)
+sdgR.fit(trainX, yTrain)
+sdgR = linear_model.SGDRegressor(max_iter=1e9, tol=1e-81)
+sdgR.fit(trainX, yTrain)
+print(sdgR.score(testX, yTest))
+from numpy import linalg as LA
+eigVals = LA.eigvals(likesMAT)
+eigVals = LA.eigvals(comeON)
+print(comeON.shape)
+comeON2=np.matmul(comeON, comeON.transpose())
+print(type(comeON))
+come2=comeON.multiply(comeON.transpose())
+comeONt=comeON.transpose()
+print(comeONt.shape)
+come2=comeON.multiply(comeONt)
+come2 = scipy.sparse.csr_matrix(comeON).multiply(scipy.sparse.csr_matrix(comeONt))
+come2=comeONt.multiply(comeON)
+come2=comeON.multiply(comeON)
+come2=comeON * comeONt
+print(come2.shape)
+eigVals=LA.eigvals(come2)
+import scipy.sparse as sparse
+vals, vecs = sparse.linalg.eigs(come2)
+print(vals)
+come2=comeONt * comeON
+print(come2.shape)
+vals, vecs = sparse.linalg.eigs(come2)
+numCMDs=readline.get_current_history_length()
+f = open("/Users/jamster/Desktop/commands13.txt", "w")
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import pandas as pd
+import numpy as np
+dfVals = pd.read_csv('/Users/jamster/Desktop/FirstXXXXeigenvals/first250eigenvals.csv')
+print(dfVals)
+vals = dfVals.ix[:,1].values
+print(vals)
+vals = vals.tolist()
+print(vals)
+testNUM = complex(vals[0])
+import math
+print(testNUM)
+print(abs(testNUM))
+print(testNUM.real)
+realVALS=[]
+for row in vals:
+	realVALS.append(row.real)
+for row in vals:
+	realVALS.append(complex(row).real)
+print(realVALS[0])
+print(realVALS[1])
+print(len(realVALS))
+dfRealVALs=pd.DataFrame({'real part of first 250 eigenvalues': realVALS})
+dfRealVALs.to_csv('/Users/jamster/Desktop/realFirst250eigenvals.csv')
+import readline
+numCMDs=readline.get_current_history_length()
+f = open('/Users/jamster/Desktop/commands31.txt', 'w')
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/ubuntu/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+alalalalalalalist(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/ubuntu/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(len(profilesLSo)):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+quit()
+import numpy as np
+import pandas as pd
+df = pd.read_csv('/Users/jamster/Desktop/eigVALS/first1000eigenvals.csv')
+vals=df.ix[:,1].values
+print(vals)
+lsVALS=vals.tolist()
+realVALs=[]
+for row in lsVALS:
+	realVALs.append(complex(row).real)
+print(realVALs)
+RealDF=pd.DataFrame({'real part of first 1000 eigenvalues': realVALs})
+RealDF.to_csv('/Users/jamster/Desktop/eigVALS/real-first1000eigenvals.csv')
+import readline
+numCMDs=readline.get_current_history_length()

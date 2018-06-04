@@ -1,0 +1,240 @@
+import pandas as pd
+import numpy as np
+likes = pd.read_csv('~/data/training/relation/relation.csv')
+likesUID = likes.ix[:,1]
+print(likesUID)
+likesLID = likes.ix[:,2]
+dfLikes = pd.DataFrame({'userid': likesUID, 'like_id': likesLID})
+print(dfLikes.shape)
+tempDF = pd.get_dummies(dfLikes['userid'], columns=dfLikes['like_id'], sparse=True)
+import scipy.sparse
+sparseTEMPdf = scipy.sparse.csr_matrix(tempDF.values)
+sparseTMPdf = None
+sparseTMPdf = pd.SparseDataFrame(tempDF)
+sparseTMPdf.to_csv('~/Downloads/test.csv')
+print(sparseTMPdf)
+print(type(tempDF))
+tempDF.to_csv('~/test.csv')
+tempDF.to_csv('~/test.csv', axis=0)
+print(tempDF[['userid']])
+print(tempDF['userid'])
+print(tempDF['userid
+print(tempDF['userid', axis=1])
+print(tempDF([0],[0]))
+print(tempDF([0],[1]))
+print(tempDF([1],[0]))
+print(tempDF.ix[1,1])
+tempDF.to_csv('~/test.csv')
+import scipy
+scipy.sparse.save_npz('~/test.npz', tempDF)
+tempCOO = tempDF.to_coo()
+scipy.sparse.save_npz('~/test.npz',tempCOO)
+scipy.sparse.save_npz('/Users/jamster/test.npz',tempCOO)
+print(type(tempDF))
+print(tempDF)
+tempDFo = pd.get_dummies(dfLikes['like_id'], columns=dfLikes['userid'], sparse=True)
+print(tempDFo.shape)
+print(tempDFo)
+print(tempDF.shape)
+test=pd.crosstab(likes['userid'], likes['like_id'])
+print(sparseTMPdf.shape)
+spLikes = likes.to_sparse()
+print(type(spLikes))
+test=pd.crosstab(spLikes['userid'], spLikes['like_id']).to_sparse()
+print(tempDF.shape)
+print(tempDFo.shape)
+mergeDF = tempDFo.copy()
+test=None
+mergeDF.join(tempDF)
+mergeDF = tempDFo.copy()
+import rpy
+import rpy2
+import readline
+hist = []
+for i in range(readline.get_history_length()):
+	hist.append(readline.get_history_item(i+1))
+f = file.open('~/Downloads/commands2.txt', rw)
+f = open('~/Downloads/commands2.txt', rw)
+f = open('~/Downloads/commands2.txt', w)
+f = open('~/Downloads/commands2.txt', "w")
+f = open('~/Downloads/commands2.txt', "+w")
+f = open('~/Downloads/commands2.txt', 'w+')
+f = open("~/Downloads/commands2.txt", "w+")
+f = open("~/Downloads/commands2.txt", "a+")
+f = open("~/Downloads/commands2.txt", "w")
+f = open("~/Downloads/commands2.txt")
+with open('~/Downloads/commands2.txt', 'w') as f:
+	for row in hist:
+		f.write(row)
+f.close()
+f = open("~/Downloads/commands2.txt")
+f = open('~/Downloads/commands2.txt', 'w')
+f = open('/Users/jamster/Downloads/commands2.txt', 'w')
+for row in hist:
+	f.write(row)
+f.close()
+f = open('/Users/jamster/Downloads/commands2.txt', 'a')
+for row in hist:
+	f.write(row)
+f.close()
+print(hist)
+for i in range(readline.get_history_length()):
+	hist.append(readline.get_history_item(i+1))
+print(len(hist))
+print(readline.get_history_length())
+lenHIST = readline.get_history_length()
+print(lenHIST)
+readline.get_current_history_length()
+for i in range(readline.get_current_history_length()):
+	hist.append(readline.get_history_item(i+1))
+print(len(hist))
+f = open('/Users/jamster/Downloads/commands2.txt', 'a')
+for row in hist:
+	f.write(row)
+f.close()
+f = open('/Users/jamster/Downloads/commands2.txt', 'a')
+for row in hist:
+ f.writelines(row)
+f.close
+f.close()
+f = open('/Users/jamster/Downloads/commands2.txt', 'a')
+for row in hist:
+	f.writelines(row)
+f.close()
+f = open('/Users/jamster/Downloads/commands2.txt', 'w')
+for row in hist:
+	f.write(row + '\n')
+f.close()
+quit()
+import pandas as pd
+import numpy as np
+likes = pd.read_csv('~/data/training/relation/relation.csv')
+likesUID = likes.ix[:,1]
+likesLID = likes.ix[:,2]
+dfLikes = pd.DataFrame({'userid': likesUID, 'like_id': likesLID})
+from rpy2.robjects import r, pandas2ri
+quit()
+import pandas as pd
+import numpy as np
+likes = pd.read_csv('~/data/training/relation/relation.csv')
+likesUID = likes.ix[:,1]
+likesLID = likes.ix[:,2]
+dfLikes = pd.DataFrame({'userid': likesUID, 'like_id': likesLID})
+print(dfLikes.shape)
+likesUID = likes.ix[:,1].values
+likesLID = likes.ix[:,2].values
+likesONE = np.ones(1671353)
+print(type(likesUID)
+)
+print(type(likesONE))
+dfLikes = pd.DataFrame({'userid': likesUID, 'like_id': likesLID, 'ones': likesONE})
+tempDF = pd.get_dummies(dfLikes, columns=dfLikes['like_id'
+], sparse=True)
+tempDF = pd.get_dummies(dfLikes['userid'], columns=dfLikes['like_id'], sparse=True)
+print(tempDF.shape)
+unqLikesUID=likesUID.unique()
+unqLikesUID = np.unique(likesUID)
+print(unqLikesUID.shape)
+dicLikesUID = {}
+for id in unqLikesUID:
+cnt = 0
+for id in unqLikesUID:
+	dicLikesUID[id]=cnt
+	cnt += 1
+print(dicLikesUID)
+unqLikesLID = np.unique(likesLID)
+print(unqLikesLID.shape)
+dicLikesLID = {}
+cnt = 0
+for id in unqLikesLID:
+	dicLikesLID[id]=cnt
+	cnt+=1
+print(dfLikes.shape)
+print(likes.shape)
+dfLikes = pd.DataFrame({'userid': likesUID, 'like_id': likesLID})
+print(dfLikes.shape)
+dfLikes0=dfLikes.replace({'userid': dicLikesUID, 'like_id': dicLikesLID})
+dfLikes0=None
+uidARR = likes.ix[:,1].values
+print(uidARR[1])
+print(len(uidARR))
+lidARR = likes.ix[:,2].values
+print(uidARR.index(c6a9a43058c8cc8398ca6e97324c0fae))
+lsUID=uidARR.tolist()
+lsUID.index(c6a9a43058c8cc8398ca6e97324c0fae)
+print(type(lsUID))
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+for row in uidARR:
+lsUID=[]
+for row in uidARR:
+	lsUID.append(str(row))
+print(lsUID[1])
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID.index(c6a9a43058c8cc8398ca6e97324c0fae)
+type(lsUID[1])
+myI = lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+print(myI)
+print(lsUID[2])
+print(lsUID.index("c6a9a43058c8cc8398ca6e97324c0fae")
+)
+lsUID.index(dicLikesUID)
+lsUID.index(unqLikesUID)
+print(lsUID.any('c6a9a43058c8cc8398ca6e97324c0fae'))
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[0]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[1]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[2]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[3]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[4]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[5]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[6]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[7]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[8]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[9]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[20]=0
+lsUID[10]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[11]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[12]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[13]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+lsUID[14]=0
+lsUID.index('c6a9a43058c8cc8398ca6e97324c0fae')
+print(lsUID[16])
+print(lsUID[100]
+)
+lsUID=[]
+for row in uidARR:
+	lsUID.append(str(row))
+lsUID.count('c6a9a43058c8cc8398ca6e97324c0fae')
+len(lsUID)
+lsUNQuid = []
+for i in unqLikesUID:
+	lsUNQuid.append(str(i))
+for id in lsUNQuid:
+	tmpCNT = lsUID.count(id)
+	for j in range(tmpCNT):
+cnt = 0
+for id in lsUNQuid"
+for id in lsUNQuid:
+	tmpCNT = lsUID.count(id)
+	for j in range(tmpCNT):
+		lsUID[lsUID.index(id)]=cnt
+	cnt+=1
+f.open('/Users/jamster/Downloads/commands7.txt', 'w')
+f = open('/Users/jamster/Downloads/commands7.txt', 'w')
+import readline
+for i in range(readline.get_current_history_length()):
+	f.write(readline.get_history_item(i+1) + '\n')

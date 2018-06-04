@@ -1,0 +1,31 @@
+sudo apt-get install python python3 python-dev python3-dev python-nump* python3-nump* python-sklear* python3-sklear* python-panda* python3-panda* python-scip* python3-scip* python-rp* python3-rpy2 r-base python-pip python3-pip python-matplotli* python3-matplotli* tmux htop sudo nano build-essential cmake automake autoconf m4 libtool net-tools sysstat awscli aws-status ec2-* pixz pigz pbzip2 unzip zip p7zi* xfsdump xfslibs-dev xfsprogs jfsutils e2fsck-static e2fslibs-dev e2fsprogs wget git curl ssh-askpass zfs-dkms zfs-doc zfs-initramfs zfsnap zfsutils-linux --install-recommends
+
+sudo apt-get purge python-nump* python3-nump* python-sklear* python3-sklear* python-panda* python3-panda* python-scip* python3-scip* python-rp* python3-rpy2 r-base python-pip python3-pip python-matplotli* python3-matplotli*
+
+sudo pip3 install sparse scikit-sparse sparray scikits.sparse SparseMatrixTools sparsereg sparseutils spglm pysapc h5sparse Biclustering-SSVD sppy ssvd pysparse matrix-io betterspy sparse_filtering sparse_vector svdRec sba svmloader sklearn-contrib-lightning pyviennacl easyspc btable-py csc-pysparse sparsesvd tensorcore matrix-decomposition
+
+sudo apt-get install python python3 python-dev python3-dev python-pip python3-pip tmux htop sudo nano build-essential cmake automake autoconf m4 libtool net-tools sysstat awscli aws-status ec2-* pixz pigz pbzip2 unzip zip p7zi* xfsdump xfslibs-dev xfsprogs jfsutils e2fsck-static e2fslibs-dev e2fsprogs wget git curl ssh-askpass zfs-dkms zfs-doc zfs-initramfs zfsnap zfsutils-linux --install-recommends
+
+pip3 install --upgrade pip
+
+sudo pip3 install numpy sklearn pandas scipy scikit-metrics scikit-plot scikit-learn sklearn-pandas sklearn-extensions pandas_ext pandas-montecarlo pandas-multiprocessing pandas-profiling joblib tensorflow
+
+sudo pip3 install readline 
+
+sudo pip3 install tqdm
+
+sudo pip3 install sparse scikit-sparse sparray SparseMatrixTools sparsereg sparseutils spglm h5sparse Biclustering-SSVD matrix-io betterspy sparse_filtering sparse_vector svdRec sklearn-contrib-lightning easyspc btable-py sparsesvd matrix-decomposition
+
+
+pandas-helpers pandas-parallel sppy pyviennacl
+
+
+sudo apt-get install libcholmod3.0.6 libcsparse3.1.4 libsuitesparse-dev --install-suggests
+
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+
+sudo apt-get install libncurses* --install-suggests
+
+sudo apt-get install git-lfs
+
+sudo apt-get install libgsl2 liblapack-dev liblapack-doc-man liblapack3 liblapacke-dev libarpack++2-dev libarpack++2c2a liblapacke libarpack2 libarpack2-dev libeigen2-dev libeigen3-dev libelpa3 libelpa-dev liblapack-pic libmeschach1.2 libnewmat10-dev libnewmat10ldbl libparpack2 libparpack2-dev libslepc-complex-3.6 libslepc-complex-3.6.1-dev libslepc3.6 libslepc3.6.1-dev --install-recommends

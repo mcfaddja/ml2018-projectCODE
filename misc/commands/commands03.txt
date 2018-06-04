@@ -1,0 +1,47 @@
+import pandas as pd
+likes = pd.csv_read("~/data/training/relation/relation.csv")
+likes = pd.read_csv("~/data/training/relation/relation.csv")
+tempDF = pd.get_dummies(likes['like-id'])
+print(likes.columns.tolist())
+tempDF = pd.get_dummies(likes[['like-id']])
+tempDF = pd.get_dummies(likes['like_id'])
+tempDF = pd.get_dummies(likes[['like_id']])
+htop
+tmpDF = pd.get_dummies(likes[['userid']])
+tempDF.to_csv("/media/ThruOptHDD/tempDF-on-userid.csv")
+profiles = pd.read_csv("~/data/training/profiles/profiles.csv")
+profiles = pd.read_csv('~/data/training/profiles/profiles.csv')
+profiles = pd.read_csv('~/data/training/profile/profile.csv')
+full = pd.merge(tempDF, profiles, on='userid')
+print(profiles)
+print(profiles.columns.tolist())
+profUIDs = profiles.ix[:,1].values
+print(profUIDs)
+profAGE = profiles.ix[:,2].values
+profSEX = profiles.ix[:,3].values
+profOPE = profiles.ix[:,4].values
+profCON = profiles.ix[:,5].values
+profEXT = profiles.ix[:,6].values
+profAGR = profiles.ix[:,7].values
+profNEU = profiles.ix[:,8].values
+print(tempDF)
+dfTEMP = pd.crosstab(likes[['userid']], likes[['like_id']])
+print(likes[['user_id']]
+)
+print(likes['user_id'])
+likesUID = likes.ix[:,0]
+print(likesUID)
+likesUID = likes.ix[:,1]
+print(likesUID)
+likesLID = likes.ix[:,2]
+print(likesLID)
+dfTMP = pd.crosstab(likesUID, likesLID)
+print(dfTMP)
+print(len(likesLID.unique()))
+dfTMP.to_csv('~/uidVSlid.csv')
+dfTMP.to_csv('/media/ThruOptHDD/uidVSlid.csv')
+sparDFtmp = dfTMP.to_sparse()
+f = open('/home/ubuntu/commands3.txt', 'w')
+import readline
+for i in range(readline.get_current_history_length()):
+	f.write(readline.get_history_item(i+1) + '\n')

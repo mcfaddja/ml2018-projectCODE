@@ -1,0 +1,1436 @@
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+gausNB = GaussianNB()
+bernNB = BernoulliNB()
+multNB = MultinomialNB()
+# gausNBage = GaussianNB()
+# bernNBage = BernoulliNB()
+# multNBage = MultinomialNB()
+# gausNBsex = GaussianNB()
+# bernNBsex = BernoulliNB()
+# multNBsex = MultinomialNB()
+# gausNBope = GaussianNB()
+# bernNBope = BernoulliNB()
+# multNBope = MultinomialNB()
+# gausNBcon = GaussianNB()
+# bernNBcon = BernoulliNB()
+# multNBcon = MultinomialNB()
+# gausNBext = GaussianNB()
+# bernNBext = BernoulliNB()
+# multNBext = MultinomialNB()
+# gausNBagr = GaussianNB()
+# bernNBagr = BernoulliNB()
+# multNBagr = MultinomialNB()
+# gausNBneu = GaussianNB()
+# bernNBneu = BernoulliNB()
+# multNBneu = MultinomialNB()
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=4)
+randForrC = RandomForestClassifier(n_jobs=7, n_estimators=15)
+randForrR = RandomForestRegressor(n_jobs=7, n_estimators=10)
+#adaBoostC = AdaBoostClassifier(n_estimators=50)
+#gausNB = GaussianNB()
+bernNB = BernoulliNB()
+bayesRidge = linear_model.BayesianRidge()
+#sdgC = linear_model.SGDClassifier()
+#sdgR = linear_model.SGDRegressor()
+#linear_model.Ridge()
+#multNB = MultinomialNB()
+#gradBoostC =  GradientBoostingClassifier(n_estimators=100, max_depth=1000)
+svmC = svm.SVC()
+svmR = svm.SVR()
+svmLc = svm.LinearSVC()
+svmLr = svm.LinearSVR()
+for train_index, test_index in kf.split(agesARR):
+	print(a)
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+gausNB = GaussianNB()
+bernNB = BernoulliNB()
+multNB = MultinomialNB()
+# gausNBage = GaussianNB()
+# bernNBage = BernoulliNB()
+# multNBage = MultinomialNB()
+# gausNBsex = GaussianNB()
+# bernNBsex = BernoulliNB()
+# multNBsex = MultinomialNB()
+# gausNBope = GaussianNB()
+# bernNBope = BernoulliNB()
+# multNBope = MultinomialNB()
+# gausNBcon = GaussianNB()
+# bernNBcon = BernoulliNB()
+# multNBcon = MultinomialNB()
+# gausNBext = GaussianNB()
+# bernNBext = BernoulliNB()
+# multNBext = MultinomialNB()
+# gausNBagr = GaussianNB()
+# bernNBagr = BernoulliNB()
+# multNBagr = MultinomialNB()
+# gausNBneu = GaussianNB()
+# bernNBneu = BernoulliNB()
+# multNBneu = MultinomialNB()
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+    
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/Users/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/Users/jamster/data/training/relation/relation.csv")
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+gausNB = GaussianNB()
+bernNB = BernoulliNB()
+multNB = MultinomialNB()
+# gausNBage = GaussianNB()
+# bernNBage = BernoulliNB()
+# multNBage = MultinomialNB()
+# gausNBsex = GaussianNB()
+# bernNBsex = BernoulliNB()
+# multNBsex = MultinomialNB()
+# gausNBope = GaussianNB()
+# bernNBope = BernoulliNB()
+# multNBope = MultinomialNB()
+# gausNBcon = GaussianNB()
+# bernNBcon = BernoulliNB()
+# multNBcon = MultinomialNB()
+# gausNBext = GaussianNB()
+# bernNBext = BernoulliNB()
+# multNBext = MultinomialNB()
+# gausNBagr = GaussianNB()
+# bernNBagr = BernoulliNB()
+# multNBagr = MultinomialNB()
+# gausNBneu = GaussianNB()
+# bernNBneu = BernoulliNB()
+# multNBneu = MultinomialNB()
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=4)
+for train_index, test_index in kf.split(agesARR):
+	print(a)
+for train_index, test_index in kf.split(agesARR):
+	print('a')
+randForrR = RandomForestRegressor(n_jobs=7, n_estimators=10)
+randForrR.fit(trainX, yTrain)
+trainX=likesMAT[train_index,:]
+yTrain=workARR[train_index]
+testX=likesMAT[test_index,:]
+trainX=opesARR[train_index,:]
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+randForrR.fit(trainX, yTrain)
+randForrR = RandomForestRegressor(n_jobs=30, n_estimators=10)
+randForrR.fit(trainX, yTrain)
+print(randForrR.score(testX, yTest))
+svmR = svm.SVR()
+svmR.fit(trainX, yTrain)
+svmR.score(testX, yTest)
+svmLr = svm.LinearSVR()
+svmR.fit(trainX, yTrain)
+randForrR = RandomForestRegressor(n_jobs=30, n_estimators=50)
+randForrR.fit(trainX, yTrain)
+print(randForrR.score(testX, yTest))
+randForrR = RandomForestRegressor(n_jobs=32, n_estimators=100)
+randForrR.fit(trainX, yTrain)
+print(randForrR.score(testX, yTest))
+opeRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=150)
+opeRANDfor.fit(likesMAT, opesARR)
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+scores = {'randForr': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'adaBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'bernNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gausNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'multNB': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+#'bagging': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'gradBoost': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'svm': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []},
+'linearSVM': {'age': [], 'sex': [], 'ope': [], 'con': [], 'ext': [], 'agr': [], 'neu': []}  }
+gausNB = GaussianNB()
+bernNB = BernoulliNB()
+multNB = MultinomialNB()
+# gausNBage = GaussianNB()
+# bernNBage = BernoulliNB()
+# multNBage = MultinomialNB()
+# gausNBsex = GaussianNB()
+# bernNBsex = BernoulliNB()
+# multNBsex = MultinomialNB()
+# gausNBope = GaussianNB()
+# bernNBope = BernoulliNB()
+# multNBope = MultinomialNB()
+# gausNBcon = GaussianNB()
+# bernNBcon = BernoulliNB()
+# multNBcon = MultinomialNB()
+# gausNBext = GaussianNB()
+# bernNBext = BernoulliNB()
+# multNBext = MultinomialNB()
+# gausNBagr = GaussianNB()
+# bernNBagr = BernoulliNB()
+# multNBagr = MultinomialNB()
+# gausNBneu = GaussianNB()
+# bernNBneu = BernoulliNB()
+# multNBneu = MultinomialNB()
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=4)
+from sklearn.externals import joblib
+opeRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=500)
+opeRANDfor.fit(likesMAT, opesARR)
+from sklearn.externals import joblib
+opeRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+opeRANDfor.fit(likesMAT, opesARR)
+joblib.dump(opeRANDfor, ‘/home/jamster/Desktop/opeRANDfor’)
+conRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+conRANDfor.fit(likesMAT, consARR)
+joblib.dump(conRANDfor, ‘/home/jamster/Desktop/conRANDfor’)
+extRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+extRANDfor.fit(likesMAT, extsARR)
+joblib.dump(extRANDfor, ‘/home/jamster/Desktop/extRANDfor’)
+agrRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+agrRANDfor.fit(likesMAT, agrsARR)
+joblib.dump(agrRANDfor, ‘/home/jamster/Desktop/agrRANDfor’)
+neuRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=100)
+neuRANDfor.fit(likesMAT, neusARR)
+joblib.dump(neuRANDfor, ‘/home/jamster/Desktop/neuRANDfor’)
+opeRANDfor=RandomForestRegressor(n_jobs=32, n_estimators=10000)
+opeRANDfor=RandomForestRegressor(n_jobs=30, n_estimators=5000)
+time opeRANDfor.fit(likesMAT, opesARR)
+%timeit
+import timeit
+%timeit
+timeit.timeit(opeRANDfor.fit(likesMAT, opesARR))
+numCMDs=readline.get_current_history_length()
+f = open(
+f = open("/home/jamster/Desktop/commands13.txt", "w")
+for i in range(numCMDs-1):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+numTOtry = [5, 10, 20, 25, 40, 50]
+testScores = []
+fitTIMES = []
+scoreTIMES = []
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+    randForrR.fit(trainX, yTrain)
+    t1 = time.time()
+    tTOT = t1-t0
+    fitTIMES.append(tTOT)
+    print(tTOT)
+    score = 0.0
+    t0 = time.time()
+    score = randForrR.score(testX, yTest)
+    t1 = time.time()
+    testScores.append(score)
+    print(score)
+    tTOT = t1 - t0
+    scoreTIMES.append(tTOT)
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.fit(testX, yTest)
+	tTot = time.time() - t0
+	testScores.append(score)
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.score(testX, yTest)
+	tTot = time.time() - t0
+	print(score)
+	testScores.append(score)
+	scoreTIMES.append(tTot)
+	print(tTot)
+numCMDs=readline.get_current_history_length()
+f = open("/home/jamster/Desktop/commands16.txt", "w")
+for i in range(numCMDs-1):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+testScores = []
+fitTIMES = []
+scoreTIMES = []
+numTOtry = [15, 30, 45, 60, 75, 80, 100, 125, 150, 200, 250]
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.score(testX, yTest)
+	tTot = time.time() - t0
+	print(score)
+	testScores.append(score)
+	scoreTIMES.append(tTot)
+	print(tTot)
+numTOtry = [15, 30, 45, 60, 75, 80, 90, 100, 120, 125, 150, 180, 200, 240, 250]
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.score(testX, yTest)
+	tTot = time.time() - t0
+	print(score)
+	testScores.append(score)
+	scoreTIMES.append(tTot)
+	print(tTot)
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+numTOtry = [5, 10, 20, 25, 40, 50]
+testScores = []
+fitTIMES = []
+scoreTIMES = []
+numTOtry = [15, 30, 45, 60, 75, 80, 90, 100, 120, 125, 150, 180, 200, 240, 250]
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.score(testX, yTest)
+	tTot = time.time() - t0
+	print(score)
+	testScores.append(score)
+	scoreTIMES.append(tTot)
+	print(tTot)
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/jamster/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(9500):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+numTOtry = [5, 10, 20, 25, 40, 50]
+testScores = []
+fitTIMES = []
+scoreTIMES = []
+numTOtry = [15, 30, 45, 50, 60, 75, 80, 90, 100, 120, 125, 150, 180, 200, 240, 250]
+for nEST in numTOtry:
+	randForrR = RandomForestRegressor(n_jobs=32, n_estimators=nEST)
+	t0 = time.time()
+	randForrR.fit(trainX, yTrain)
+	tTot = time.time() - t0
+	fitTIMES.append(tTot)
+	print(tTot)
+	score = 0.0
+	t0 = time.time()
+	score = randForrR.score(testX, yTest)
+	tTot = time.time() - t0
+	print(score)
+	testScores.append(score)
+	scoreTIMES.append(tTot)
+	print(tTot)
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+print(likesMAT.shape)
+print(likesMAT.nonzero())
+non0stuff = likesMAT.nonzero()
+print(non0stuff[0])
+print(non0stuff)
+exportSTUFF = np.array([non0stuff[0], non0stuff[1]])
+print(exportSTUFF.shape)
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], np.ones[(1, 1671353)])
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], np.ones(1, 1671353))
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], np.ones((1, 1671353)))
+my1s=np.ones((1, 1671353))
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], my1s)
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], my1s[0])
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], np.ones((1, 1671353))])
+print(exportSTUFF.shape)
+exportSTUFF = np.array([non0stuff[0], non0stuff[1], np.ones((1671353))])
+print(exportSTUFF.shape)
+exportSTUFF = exportSTUFF.reshape(1671353, 3)
+print(exportSTUFF.shape)
+import csv
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w')
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w') as csvfile:
+	csvWriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in exportSTUFF:
+		csvWriter.writerow(row)
+csvfile.close()
+aTMP = 0
+for row in exportSTUFF:
+	aTMP+=1
+print(row)
+print(likesMAT.nonzero())
+expCOLs=likesMAT.nonzero()[0]
+print(expCOLs
+)
+expCOLs=expCOLs.tolist()
+print(len(expCOLs))
+expROWs=likesMAT.nonzero()[1]
+expROWs=expROWs.tolist()
+expONEs=np.ones((1671353))
+expONEs=expONEs.tolist()
+expStuff = [expROWs, expCOLs, expONEs]
+expStuff = list(map(list, zip(*expStuff)))
+print(expStuff[1])
+print(expStuff[0])
+print(expStuff[50000])
+print(expStuff[150000])
+expStuff = list(map(list, zip(*expStuff)))
+print(max(expStuff[1]))
+expStuff = [expCOLs, expROWs, expONEs]
+expStuff = list(map(list, zip(*expStuff)))
+print(expStuff[1])
+max = 0
+for row in expStuff:
+	tmpVAL = row[1]
+	if tmpVAL > max:
+		max = tmpVAL
+print(max)
+max = 0
+for row in expStuff:
+	tmpVAL = row[0]
+	if tmpVAL < max:
+		max = tmpVAL
+print(max)
+max = 0
+for row in expStuff:
+	tmpVAL = row[0]
+	if tmpVAL > max:
+		max = tmpVAL
+print(max)
+print(len(expStuff))
+for i in range(len(expStuff)):
+	expStuff[i][2]=1
+max = 0
+for row in expStuff:
+	tmpVAL = row[2]
+	if tmpVAL > max:
+		max = tmpVAL
+print(max)
+print(expStuff[1])
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w') as csvfile:
+	csvWriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expStuff:
+		csvWriter.writerow(row)
+f.close()
+csvfile.close()
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'r') as csvfile:
+importTEST = []
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'r') as csvfile:
+	csvReader = csv.reader(csvfile, elimiter=' ', quotechar='|')
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'r') as csvfile:
+	csvReader = csv.reader(csvfile, elimiter=' ', quotechar='|')
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'r') as csvfile:
+	csvReader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+	for row in csvReader:
+		importTEST.append(row)
+csvfile.close()
+print(importTEST[1])
+for row in importTEST:
+for i in range(len(importTEST)):
+	importTEST[i][0]=int(importTEST[i][0])
+	importTEST[i][1]=int(importTEST[i][1])
+	importTEST[i][2]=int(importTEST[i][2])
+print(importTEST[1])
+numCMDs = readline.get_current_history_length()
+f = open('/home/jamster/Desktop/exportSPARSEtoCSVcommands.txt', 'w')
+for i in range(numCMDs):
+	f.write(readline.get_history_item(i+1) + '\n')
+f.close()
+quit()
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+expCOLs=likesMAT.nonzero()[0]
+expCOLs=expCOLs.tolist()
+expROWs=likesMAT.nonzero()[1]
+expROWs=expROWs.tolist()
+expONEs=np.ones((1671353))
+expONEs=expONEs.tolist()
+expStuff = [expCOLs, expROWs, expONEs]
+expStuff = list(map(list, zip(*expStuff)))
+for i in range(len(expStuff)):
+	expStuff[i][2]=1
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w') as csvfile:
+	csvWriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expStuff:
+		csvWriter.writerow(row)
+import csv
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w') as csvfile:
+	csvWriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expStuff:
+		csvWriter.writerow(row)
+csvfile.close()
+quit()
+mport readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+import csv
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+import csv
+likes = pd.read_csv("/home/jamster/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+expCOLs=likesMAT.nonzero()[0]
+expCOLs=expCOLs.tolist()
+expROWs=likesMAT.nonzero()[1]
+expROWs=expROWs.tolist()
+expONEs=np.ones((1671353))
+expONEs=expONEs.tolist()
+expStuff = [expCOLs, expROWs, expONEs]
+expStuff = list(map(list, zip(*expStuff)))
+for i in range(len(expStuff)):
+	expStuff[i][2]=1
+with open('/home/jamster/Desktop/sparseLIKESdata.csv', 'w') as csvfile:
+	csvWriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expStuff:
+		csvWriter.writerow(row)
+csvfile.close()
+max = 0
+for row in expStuff:
+	tmpVAL = row[1]
+	if tmpVAL > max:
+		max = tmpVAL
+print(max)
+uidONES=np.ones(9500)
+print(uidONES.shape)
+print(len(unqLikesUIDs))
+npUnqLikesUIDs=np.array(unqLikesUIDs)
+print(npUnqLikesUIDs.shape)
+print(npUnqLikesUIDs[1])
+uidCONV=list(range(9500))
+print(uidCONV[1])
+print(uidCONV[9499])
+expUNQlikesUIDs=[unqLikesUIDs, uidCONV]
+print(len(expUNQlikesUIDs))
+expUNQlikesUIDs=list(map(list, zip(*expUNQlikesUIDs)))
+print(len(expUNQlikesUIDs))
+with open('/home/jamster/Desktop/expUNQlikesUIDs-CONV.csv', 'w') as csvfile:
+	csvwriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+with open('/home/jamster/Desktop/expUNQlikesUIDs-CONV.csv', 'w') as csvfile:
+	csvwriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expUNQlikesUIDs:
+		csvwriter.writerow(row)
+csvfile.close()
+print(len(unqLikesLIDs))
+lidCONV=list(range(len(unqLikesLIDs))))
+lidCONV=list(range(len(unqLikesLIDs)))
+expUNQlikesUIDs=[unqLikesLIDs, lidCONV]
+expUNQlikesLIDs=[unqLikesLIDs, lidCONV]
+expUNQlikesLIDs=list(map(list, zip(*expUNQlikesLIDs)))
+with open('/home/jamster/Desktop/expUNQlikesLIDs-CONV.csv', 'w') as csvfile:
+	csvwriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for row in expUNQlikesLIDs:
+		csvwriter.writerow(row)
+csvfile.close()
+numCMDs=readline.get_current_history_length()

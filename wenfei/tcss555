@@ -1,0 +1,25 @@
+#!/bin/bash
+INPUT_PATH=""
+OUTPUT_PATH=""
+
+while getopts "hi:o:" FLAG;
+ do
+        case "${FLAG}" in
+                h)
+                        echo "use -i for input data folder, and -o for output folder"
+
+                        ;;
+                i)
+                        INPUT_PATH=${OPTARG}
+                        ;;
+                o)
+                        OUTPUT_PATH=${OPTARG}
+                        ;;
+
+        esac
+done
+
+
+#python3 week3.py $INPUT_PATH $OUTPUT_PATH
+python3 week7_wenfei_test.py $INPUT_PATH $OUTPUT_PATH
+

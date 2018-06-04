@@ -1,0 +1,105 @@
+import readline
+import scipy.sparse
+import scipy
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from sklearn import metrics
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
+from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import SVR, LinearSVR
+from sklearn import linear_model
+from sklearn.externals import joblib
+import timeit
+import time
+likes = pd.read_csv("/home/ubuntu/data/training/relation/relation.csv")
+likesUIDs = likes.ix[:,1].values
+likesLIDs = likes.ix[:,2].values
+lsLikesUIDs = likesUIDs.tolist()
+lsLikesLIDs = likesLIDs.tolist()
+setLikesUIDs = set(lsLikesUIDs)
+setLikesLIDs = set(lsLikesLIDs)
+unqLikesUIDs = (list(setLikesUIDs))
+unqLikesLIDs = (list(setLikesLIDs))
+allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+allLikesLS = list(map(list, zip(*allLikesLS)))
+aDictLikes2 = {}
+for aUID in unqLikesUIDs:
+	aDictLikes2[aUID]=[]
+for row in allLikesLS:
+	aDictLikes2[row[0]].append(row[1])
+combDICT = {}
+for uid in unqLikesUIDs:
+	tmpDICT={}
+	tmpLS = aDictLikes2[uid]
+	for row in tmpLS:
+		tmpDICT[str(row)]=1
+	combDICT[uid]=tmpDICT
+tryTHIS=[]
+for uid in unqLikesUIDs:
+	tryTHIS.append(combDICT[uid])
+v = DictVectorizer()
+likesMAT=v.fit_transform(tryTHIS)
+profilesDF=pd.read_csv("/home/ubuntu/data/training/profile/profile.csv")
+profiles=profilesDF.ix[:,1:9].values.copy()
+profilesLSo=profiles.tolist().copy()
+profilesLS=[]
+for row in profilesLSo:
+	tmpLS=row
+	tmpAGE=row[1]
+	if tmpAGE < 25:
+		tmpLS[1]=1
+	elif tmpAGE < 35:
+		tmpLS[1]=2
+	elif tmpAGE < 50:
+		tmpLS[1]=3
+	else:
+		tmpLS[1]=4
+	profilesLS.append(tmpLS)
+profsTOlikes=[]
+for i in range(len(profilesLSo)):
+	profsTOlikes.append([])
+for row in profilesLS:
+	tmpIND = unqLikesUIDs.index(row[0])
+	profsTOlikes[tmpIND]=row
+profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+agesARR=np.array(profsTOlikes1[1])
+sexsARR=np.array(profsTOlikes1[2])
+opesARR=np.array(profsTOlikes1[3])
+consARR=np.array(profsTOlikes1[4])
+extsARR=np.array(profsTOlikes1[5])
+agrsARR=np.array(profsTOlikes1[6])
+neusARR=np.array(profsTOlikes1[7])
+attribs = [agesARR, sexsARR, opesARR, consARR, extsARR, agrsARR, neusARR]
+labels = ['age', 'sex', 'ope', 'con', 'ext', 'agr', 'neu']
+kf = KFold(n_splits=19)
+aTMP = 0
+for train_index, test_index in kf.split(agesARR):
+	aTMP+=1
+print(aTMP)
+print(likesMAT.shape)
+randForrR=RandomForestRegressor(n_jobs=48, n_estimators=50)
+randForrR.fit(likesMAT, opesARR)
+joblib.dump(randForrR, '/media/HDD/testRandForR.pkl')
+randForrR=RandomForestRegressor(n_jobs=48, n_estimators=100)
+randForrR.fit(likesMAT, opesARR)
+joblib.dump(randForrR, '/media/HDD/testRandForR-1.pkl')
+randForrR=RandomForestRegressor(n_jobs=48, n_estimators=250)
+randForrR.fit(likesMAT, opesARR
+)
+joblib.dump(randForrR, '/media/HDD/testRandForR-2.pkl')
+trainX=likesMAT[train_index,:]
+yTrain=opesARR[train_index]
+testX=likesMAT[test_index,:]
+yTest=opesARR[test_index]
+randForrR=RandomForestRegressor(n_jobs=48, n_estimators=250)
+randForrR.fit(trainX, yTrain)
+print(randForrR.score(testX, yTest))
+quit()
+import readline
+numCMDs=readline.get_current_history_length()
