@@ -19,6 +19,7 @@ from sklearn.metrics import confusion_matrix
 
 
 
+
 # Set file/directory paths
 ###############
 pathLIKEs = "/data/training/relation"
@@ -27,6 +28,7 @@ pathPROFs = "/data/training/profile"
 # test_pathPROFs = sys.argv[1]+"/profile"
 test_pathLIKEs = "/data/public-test-data/relation"
 test_pathPROFs = "/data/public-test-data/profile"
+
 
 
 
@@ -56,34 +58,35 @@ allLikesLS = list(map(list, zip(*allLikesLS)))
 # Convert list of UID and LID pairs into a dictionary indexed by UIDs
 aDictLikes2 = {}
 for aUID in unqLikesUIDs:
-	aDictLikes2[aUID]=[]
+    aDictLikes2[aUID]=[]
 
 for row in allLikesLS:
-	aDictLikes2[row[0]].append(row[1])
+    aDictLikes2[row[0]].append(row[1])
 
 
 # Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
 combDICT = {}
 for uid in unqLikesUIDs:
-	tmpDICT={}
-	tmpLS = aDictLikes2[uid]
+    tmpDICT={}
+    tmpLS = aDictLikes2[uid]
 
-	for row in tmpLS:
-		tmpDICT[str(row)]=1
+    for row in tmpLS:
+        tmpDICT[str(row)]=1
     
-	combDICT[uid]=tmpDICT
+    combDICT[uid]=tmpDICT
 
 
 # Convert 'combDICT' into a list of dictionaries (of LIDs)
 lsOfDicts=[]
 for uid in unqLikesUIDs:
-	lsOfDicts.append(combDICT[uid])
+    lsOfDicts.append(combDICT[uid])
 
 # Vectorize the list of dictionaries in 'lsOfDicts' to get the UID/LID matrix for the training data
 v = DictVectorizer()
 likesMAT=v.fit_transform(lsOfDicts)
 
 print("done with processing likes matrix from training data")
+
 
 
 
@@ -118,10 +121,10 @@ test_allLikesLS = list(map(list, zip(*test_allLikesLS)))
 # Convert list of UID and LID pairs into a dictionary indexed by UIDs
 test_aDictLikes2 = {}
 for aUID in test_unqLikesUIDs:
-	test_aDictLikes2[aUID]=[]
+    test_aDictLikes2[aUID]=[]
 
 for row in test_allLikesLS:
-	test_aDictLikes2[row[0]].append(row[1])
+    test_aDictLikes2[row[0]].append(row[1])
 
 # test_aDictLikes2["dummy"] = unqLikesLIDs
 
@@ -129,16 +132,16 @@ for row in test_allLikesLS:
 # Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
 test_combDICT = {}
 for uid in test_unqLikesUIDs:
-	tmpDICT={}
-	tmpLS = test_aDictLikes2[uid]
-	for row in tmpLS:
-		tmpDICT[str(row)]=1
-	test_combDICT[uid]=tmpDICT
+    tmpDICT={}
+    tmpLS = test_aDictLikes2[uid]
+    for row in tmpLS:
+        tmpDICT[str(row)]=1
+    test_combDICT[uid]=tmpDICT
     
 # Convert 'test_combDICT' into a list of dictionaries (of LIDs)
 test_lsOfDicts=[]
 for uid in test_unqLikesUIDs:
-	test_lsOfDicts.append(test_combDICT[uid])
+    test_lsOfDicts.append(test_combDICT[uid])
 
 
 # Create a dictionary of dummy LID values to cover ALL LIDs in the training dataset, this way the test and training like matrices have the same number of columns
@@ -153,11 +156,12 @@ test_unqLikesUIDs.append("dummy")
 
 # Vectorize the list of dictionaries in 'test_lsOfDicts' to get the UID/LID matrix for the test data
 test_v = DictVectorizer()
-test_likesMAT=test_v.fit_transform(test_lsOfDicts)
+test_likesMAT = test_v.fit_transform(test_lsOfDicts)
 
 # tmp0 = test_likesMAT * np.ones((test_likesMAT.shape[1], 1))
 
 print("done with processing likes matrix from test data")
+
 
 
 
@@ -172,33 +176,34 @@ profilesLSo = profiles.tolist().copy()
 # Categorize the ages
 profilesLS=[]
 for row in profilesLSo:
-	tmpLS=row
-	tmpAGE=row[1]
+    tmpLS=row
+    tmpAGE=row[1]
 
-	if tmpAGE < 25:
-		tmpLS[1]=1
-	elif tmpAGE < 35:
-		tmpLS[1]=2
-	elif tmpAGE < 50:
-		tmpLS[1]=3
-	else:
-		tmpLS[1]=4
+    if tmpAGE < 25:
+        tmpLS[1]=1
+    elif tmpAGE < 35:
+        tmpLS[1]=2
+    elif tmpAGE < 50:
+        tmpLS[1]=3
+    else:
+        tmpLS[1]=4
 
-	profilesLS.append(tmpLS)
+    profilesLS.append(tmpLS)
 
 
 # Align the profiles data with the indexing of the likes data
 profsTOlikes=[]
 for i in range(len(profilesLS)):
-	profsTOlikes.append([])
+    profsTOlikes.append([])
 
 for row in profilesLS:
-	tmpIND = unqLikesUIDs.index(row[0])
-	profsTOlikes[tmpIND]=row
+    tmpIND = unqLikesUIDs.index(row[0])
+    profsTOlikes[tmpIND]=row
 
 profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
 print("finished processing profile matrix from training data")
+
 
 
 
@@ -213,8 +218,8 @@ test_profilesLSo = test_profiles.tolist().copy()
 # Prep the profile data from the test dataset in the same manner as the profile data from the training dataset
 test_profilesLS=[]
 for row in test_profilesLSo:
-	tmpLS=row
-	test_profilesLS.append(tmpLS)
+    tmpLS=row
+    test_profilesLS.append(tmpLS)
 
 test_profilesLS.append("dummy") # Append the 'dummy' User ID described eariler
 
@@ -222,12 +227,12 @@ test_profilesLS.append("dummy") # Append the 'dummy' User ID described eariler
 # Align the profiles data with the indexing of the likes data and generate a list of User IDs with no likes information in the test dataset
 test_profsTOlikes=[]
 for i in range(len(test_unqLikesUIDs)):
-	test_profsTOlikes.append([])
+    test_profsTOlikes.append([])
 
 notINlist = []
 for row in test_profilesLS:
     if row in test_unqLikesUIDs:
-	    tmpIND = test_unqLikesUIDs.index(row)
+        tmpIND = test_unqLikesUIDs.index(row)
     else:
         notINlist.append(row)
     test_profsTOlikes[tmpIND]=row
@@ -235,6 +240,7 @@ for row in test_profilesLS:
 test_profsTOlikes1=list(map(list, zip(*test_profsTOlikes)))
 
 print("finished processing profile matrix from test data")
+
 
 
 
@@ -247,6 +253,7 @@ from keras.models import Model, Sequential
 from keras.layers import Input, Dense, Dropout, Activation
 from keras.optimizers import RMSprop, Adam, Nadam, Adamax
 from keras.models import model_from_json
+
 
 
 # Import Keras AGES model from file
@@ -285,6 +292,7 @@ print("predictions by AGES model have been processed")
 
 
 
+
 # Import Keras SEXS model from file
 ###############
 json_file = open("/home/itadmin/mcfaddja-models/SEXS-Keras.json", 'r')
@@ -320,8 +328,14 @@ print("predictions by SEXS model have been processed")
 
 
 
+# Import sklearn libraries required for importing saved models
+###############
 # from sklearn.externals import joblib
 
+
+
+# Import SKLearn Support Vector Machine OPEs model from file and predict
+###############
 # # opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
 # opesMODEL = joblib.load("mcfaddja-models/SVM-A-opes.xz")
 # print("loaded OPES model from disk")
@@ -333,6 +347,8 @@ print("predictions by SEXS model have been processed")
 
 
 
+# Import SKLearn Bagging (w/ in-bag-scoring) CONs model from file and predict
+###############
 # consMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
 # print("loaded CONS model from disk")
 
@@ -342,7 +358,8 @@ print("predictions by SEXS model have been processed")
 
 
 
-
+# Import SKLearn Bagging (w/ in-bag-scoring) EXTs model from file and predict
+###############
 # extsMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
 # print("loaded EXTS model from disk")
 
@@ -352,6 +369,8 @@ print("predictions by SEXS model have been processed")
 
 
 
+# Import SKLearn Bagging (w/ in-bag-scoring) AGRs model from file and predict
+###############
 # agrsMODEL = joblib.load("mcfaddja-models/bagIN-A-agrs.xz")
 # print("loaded AGRS model from disk")
 
@@ -361,15 +380,13 @@ print("predictions by SEXS model have been processed")
 
 
 
-
+# Import SKLearn K-Nearest Neighbors NEUs model from file and predict
+###############
 # neusMODEL = joblib.load("mcfaddja-models/knn-A-neus.xz")
 # print("loaded NEUS model from disk")
 
 # pred_neus = neusMODEL.predict(test_likesMAT)
 # print("NEUS model has made predictions")
-
-
-
 
 
 
@@ -422,6 +439,7 @@ def create_xmlA(i,user):
 
 
 
+
 # def create_xmlA(i,user):
 #     root = ET.Element("user")
 #     if proc_ages[i]==1:
@@ -455,6 +473,7 @@ def create_xmlA(i,user):
 
     
 
+
 # Create XML files for users without LIKES data in the test dataset
 ###############
 def create_xmlB(user):
@@ -474,6 +493,7 @@ def create_xmlB(user):
     # Write XML Tree to file
     tree.write(sys.argv[2]+"/"+str(user)+".xml")
     # tree.write("/Users/jamster/output/"+str(user)+".xml")
+
 
 
 
