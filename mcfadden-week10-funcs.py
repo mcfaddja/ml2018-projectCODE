@@ -2,7 +2,8 @@
 # ML in Python, Term Project
 # date: 06/01/2018
 # name: Jonathan McFadden
-# description: Code to run the models of MyFacebook data which were generated from the 'LIKES' data
+# description: Code to run the models of MyFacebook data which were generated 
+#               from the 'LIKES' data
 
 
 # Import initial required libraries
@@ -50,7 +51,8 @@ setLikesLIDs = set(lsLikesLIDs)
 unqLikesUIDs = (list(setLikesUIDs))
 unqLikesLIDs = (list(setLikesLIDs))
 
-# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
+# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the 
+#   posts the user has liked
 allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
 allLikesLS = list(map(list, zip(*allLikesLS)))
 
@@ -81,7 +83,8 @@ lsOfDicts=[]
 for uid in unqLikesUIDs:
     lsOfDicts.append(combDICT[uid])
 
-# Vectorize the list of dictionaries in 'lsOfDicts' to get the UID/LID matrix for the training data
+# Vectorize the list of dictionaries in 'lsOfDicts' to get the UID/LID matrix 
+#   for the training data
 v = DictVectorizer()
 likesMAT=v.fit_transform(lsOfDicts)
 
@@ -111,7 +114,8 @@ test_setLikesLIDs = set(test_lsLikesLIDs)
 test_unqLikesUIDs = (list(test_setLikesUIDs))
 test_unqLikesLIDs = (list(test_setLikesLIDs))
 
-# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
+# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the 
+#   posts the user has liked
 test_allLikesLS = [test_lsLikesUIDs, [str(x) for x in test_lsLikesLIDs]]
 test_allLikesLS = list(map(list, zip(*test_allLikesLS)))
 
@@ -144,17 +148,21 @@ for uid in test_unqLikesUIDs:
     test_lsOfDicts.append(test_combDICT[uid])
 
 
-# Create a dictionary of dummy LID values to cover ALL LIDs in the training dataset, this way the test and training like matrices have the same number of columns
+# Create a dictionary of dummy LID values to cover ALL LIDs in the training 
+#   dataset, this way the test and training like matrices have the same 
+#   number of columns
 dummyDICT = {}
 for row in unqLikesLIDs:
     dummyDICT[str(row)] = 1
 
-# Append the dummy dictionary to the list of dictionaries and append the UID 'dummy' to the list of UIDs
+# Append the dummy dictionary to the list of dictionaries and append the 
+#   UID 'dummy' to the list of UIDs
 test_lsOfDicts.append(dummyDICT)
 test_unqLikesUIDs.append("dummy")
 
 
-# Vectorize the list of dictionaries in 'test_lsOfDicts' to get the UID/LID matrix for the test data
+# Vectorize the list of dictionaries in 'test_lsOfDicts' to get the UID/LID matrix 
+#   for the test data
 test_v = DictVectorizer()
 test_likesMAT = test_v.fit_transform(test_lsOfDicts)
 
@@ -215,7 +223,8 @@ test_dfPROFS = pd.read_csv(test_pathPROFs + "/profile.csv")
 test_profiles = test_dfPROFS.ix[:,1].values.copy()
 test_profilesLSo = test_profiles.tolist().copy()
 
-# Prep the profile data from the test dataset in the same manner as the profile data from the training dataset
+# Prep the profile data from the test dataset in the same manner as the 
+#   profile data from the training dataset
 test_profilesLS=[]
 for row in test_profilesLSo:
     tmpLS=row
@@ -224,7 +233,8 @@ for row in test_profilesLSo:
 test_profilesLS.append("dummy") # Append the 'dummy' User ID described eariler
 
 
-# Align the profiles data with the indexing of the likes data and generate a list of User IDs with no likes information in the test dataset
+# Align the profiles data with the indexing of the likes data and generate 
+#   a list of User IDs with no likes information in the test dataset
 test_profsTOlikes=[]
 for i in range(len(test_unqLikesUIDs)):
     test_profsTOlikes.append([])
@@ -328,69 +338,6 @@ print("predictions by SEXS model have been processed")
 
 
 
-# Import sklearn libraries required for importing saved models
-###############
-# from sklearn.externals import joblib
-
-
-
-# Import SKLearn Support Vector Machine OPEs model from file and predict
-###############
-# # opesMODEL = joblib.load("/Users/jamster/mcfaddja-models/SVM-A-opes.xz")
-# opesMODEL = joblib.load("mcfaddja-models/SVM-A-opes.xz")
-# print("loaded OPES model from disk")
-
-# pred_opes = opesMODEL.predict(test_likesMAT)
-# # print(pred_opes)
-# print("OPES model has made predictions")
-
-
-
-
-# Import SKLearn Bagging (w/ in-bag-scoring) CONs model from file and predict
-###############
-# consMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
-# print("loaded CONS model from disk")
-
-# pred_cons = consMODEL.predict(test_likesMAT)
-# print("CONS model has made predictions")
-
-
-
-
-# Import SKLearn Bagging (w/ in-bag-scoring) EXTs model from file and predict
-###############
-# extsMODEL = joblib.load("mcfaddja-models/bagIN-A-cons.xz")
-# print("loaded EXTS model from disk")
-
-# pred_exts = extsMODEL.predict(test_likesMAT)
-# print("EXTS model has made predictions")
-
-
-
-
-# Import SKLearn Bagging (w/ in-bag-scoring) AGRs model from file and predict
-###############
-# agrsMODEL = joblib.load("mcfaddja-models/bagIN-A-agrs.xz")
-# print("loaded AGRS model from disk")
-
-# pred_agrs = agrsMODEL.predict(test_likesMAT)
-# print("AGRS model has made predictions")
-
-
-
-
-# Import SKLearn K-Nearest Neighbors NEUs model from file and predict
-###############
-# neusMODEL = joblib.load("mcfaddja-models/knn-A-neus.xz")
-# print("loaded NEUS model from disk")
-
-# pred_neus = neusMODEL.predict(test_likesMAT)
-# print("NEUS model has made predictions")
-
-
-
-
 # Create XML files for users with LIKES data in the test dataset
 ###############
 def create_xmlA(i,user):
@@ -438,40 +385,6 @@ def create_xmlA(i,user):
     # tree.write("/Users/jamster/output/"+str(user)+".xml")
 
 
-
-
-# def create_xmlA(i,user):
-#     root = ET.Element("user")
-#     if proc_ages[i]==1:
-# 	    root.set("age_group","xx-24")
-#     elif proc_ages[i]==2:
-#         root.set("age_group","25-34")
-#     elif proc_ages[i]==3:
-#         root.set("age_group","35-49")
-#     else:
-#         root.set("age_group","50-xx")
-
-#     if proc_sexs[i]==0:
-#         root.set("gender","male")
-#     else:
-#         root.set("gender","female")
-
-#     root.set("id", test_profsTOlikes[i])
-
-#     root.set("extrovert","3.49")
-
-#     root.set("neurotic", str(np.around(pred_neus[i], decimals=2)))
-
-#     root.set("agreeable", str(np.around(pred_agrs[i], decimals=2)))
-
-#     root.set("conscientious", str(np.around(pred_cons[i], decimals=2)))
-
-#     root.set("open", str(np.around(pred_opes[i], decimals=2)))
-#     tree = ET.ElementTree(root)
-#     # tree.write(sys.argv[2]+"/"+str(user)+".xml")
-#     tree.write("/Users/jamster/output/"+str(user)+".xml")
-
-    
 
 
 # Create XML files for users without LIKES data in the test dataset
