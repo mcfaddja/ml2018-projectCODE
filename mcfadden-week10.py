@@ -32,209 +32,221 @@ test_pathPROFs = "/data/public-test-data/profile"
 
 # Import the 'LIKES' from the training dataset and process
 ###############
-dfLIKES = pd.read_csv(pathLIKEs + "/relation.csv")
+def impTrainLikes(pathLIKEs):
+    dfLIKES = pd.read_csv(pathLIKEs + "/relation.csv")
 
-# Extact individual columns and convert to lists
-likesUIDs = dfLIKES.ix[:,1].values
-likesLIDs = dfLIKES.ix[:,2].values
-lsLikesUIDs = likesUIDs.tolist()
-lsLikesLIDs = likesLIDs.tolist()
+    # Extact individual columns and convert to lists
+    likesUIDs = dfLIKES.ix[:,1].values
+    likesLIDs = dfLIKES.ix[:,2].values
+    lsLikesUIDs = likesUIDs.tolist()
+    lsLikesLIDs = likesLIDs.tolist()
 
-# Convert columns to sets
-setLikesUIDs = set(lsLikesUIDs)
-setLikesLIDs = set(lsLikesLIDs)
+    # Convert columns to sets
+    setLikesUIDs = set(lsLikesUIDs)
+    setLikesLIDs = set(lsLikesLIDs)
 
-# Convert columns to list of unique items
-unqLikesUIDs = (list(setLikesUIDs))
-unqLikesLIDs = (list(setLikesLIDs))
+    # Convert columns to list of unique items
+    unqLikesUIDs = (list(setLikesUIDs))
+    unqLikesLIDs = (list(setLikesLIDs))
 
-# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
-allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
-allLikesLS = list(map(list, zip(*allLikesLS)))
-
-
-# Convert list of UID and LID pairs into a dictionary indexed by UIDs
-aDictLikes2 = {}
-for aUID in unqLikesUIDs:
-	aDictLikes2[aUID]=[]
-
-for row in allLikesLS:
-	aDictLikes2[row[0]].append(row[1])
+    # Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
+    allLikesLS = [lsLikesUIDs, [str(x) for x in lsLikesLIDs]]
+    allLikesLS = list(map(list, zip(*allLikesLS)))
 
 
-# Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
-combDICT = {}
-for uid in unqLikesUIDs:
-	tmpDICT={}
-	tmpLS = aDictLikes2[uid]
+    # Convert list of UID and LID pairs into a dictionary indexed by UIDs
+    aDictLikes2 = {}
+    for aUID in unqLikesUIDs:
+        aDictLikes2[aUID]=[]
 
-	for row in tmpLS:
-		tmpDICT[str(row)]=1
-    
-	combDICT[uid]=tmpDICT
+    for row in allLikesLS:
+        aDictLikes2[row[0]].append(row[1])
 
 
-# Convert 'combDICT' into a list of dictionaries (of LIDs)
-lsOfDicts=[]
-for uid in unqLikesUIDs:
-	lsOfDicts.append(combDICT[uid])
+    # Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
+    combDICT = {}
+    for uid in unqLikesUIDs:
+        tmpDICT={}
+        tmpLS = aDictLikes2[uid]
 
-# Vectorize the list of dictionaries in 'lsOfDicts' to get the UID/LID matrix for the training data
-v = DictVectorizer()
-likesMAT=v.fit_transform(lsOfDicts)
+        for row in tmpLS:
+            tmpDICT[str(row)]=1
+        
+        combDICT[uid]=tmpDICT
 
-print("done with processing likes matrix from training data")
+
+    # Convert 'combDICT' into a list of dictionaries (of LIDs)
+    lsOfDicts=[]
+    for uid in unqLikesUIDs:
+        lsOfDicts.append(combDICT[uid])
+
+    # Vectorize the list of dictionaries in 'lsOfDicts' to get the UID/LID matrix for the training data
+    v = DictVectorizer()
+    likesMAT=v.fit_transform(lsOfDicts)
+
+    print("done with processing likes matrix from training data")
+
+    return likesMAT
 
 
 
 # Import the 'LIKES' from the test dataset and process
 ###############
-test_dfLIKES = pd.read_csv(test_pathLIKEs + "/relation.csv")
+def impTestLikes(test_pathLIKEs, unqLikesLIDs):
+    test_dfLIKES = pd.read_csv(test_pathLIKEs + "/relation.csv")
 
-# remove any data (by like_id) which does not occur in the training data
-test_dfLIKES = test_dfLIKES[ test_dfLIKES['like_id'].isin(unqLikesLIDs)]
+    # remove any data (by like_id) which does not occur in the training data
+    test_dfLIKES = test_dfLIKES[ test_dfLIKES['like_id'].isin(unqLikesLIDs)]
 
-# Extact individual columns and convert to lists
-test_likesUIDs = test_dfLIKES.ix[:,1].values
-test_likesLIDs = test_dfLIKES.ix[:,2].values
-test_lsLikesUIDs = test_likesUIDs.tolist()
-test_lsLikesLIDs = test_likesLIDs.tolist()
+    # Extact individual columns and convert to lists
+    test_likesUIDs = test_dfLIKES.ix[:,1].values
+    test_likesLIDs = test_dfLIKES.ix[:,2].values
+    test_lsLikesUIDs = test_likesUIDs.tolist()
+    test_lsLikesLIDs = test_likesLIDs.tolist()
 
-# Convert columns to sets
-test_setLikesUIDs = set(test_lsLikesUIDs)
-test_setLikesLIDs = set(test_lsLikesLIDs)
+    # Convert columns to sets
+    test_setLikesUIDs = set(test_lsLikesUIDs)
+    test_setLikesLIDs = set(test_lsLikesLIDs)
 
-# Convert columns to list of unique items
-test_unqLikesUIDs = (list(test_setLikesUIDs))
-test_unqLikesLIDs = (list(test_setLikesLIDs))
+    # Convert columns to list of unique items
+    test_unqLikesUIDs = (list(test_setLikesUIDs))
+    test_unqLikesLIDs = (list(test_setLikesLIDs))
 
-# Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
-test_allLikesLS = [test_lsLikesUIDs, [str(x) for x in test_lsLikesLIDs]]
-test_allLikesLS = list(map(list, zip(*test_allLikesLS)))
+    # Get list of all User IDs (UIDs) paried with the Like IDs (LIDs) of the posts the user has liked
+    test_allLikesLS = [test_lsLikesUIDs, [str(x) for x in test_lsLikesLIDs]]
+    test_allLikesLS = list(map(list, zip(*test_allLikesLS)))
 
-# test_dfLIKES.to_csv("/Users/jamster/Desktop/test.csv")
-
-
-# Convert list of UID and LID pairs into a dictionary indexed by UIDs
-test_aDictLikes2 = {}
-for aUID in test_unqLikesUIDs:
-	test_aDictLikes2[aUID]=[]
-
-for row in test_allLikesLS:
-	test_aDictLikes2[row[0]].append(row[1])
-
-# test_aDictLikes2["dummy"] = unqLikesLIDs
+    # test_dfLIKES.to_csv("/Users/jamster/Desktop/test.csv")
 
 
-# Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
-test_combDICT = {}
-for uid in test_unqLikesUIDs:
-	tmpDICT={}
-	tmpLS = test_aDictLikes2[uid]
-	for row in tmpLS:
-		tmpDICT[str(row)]=1
-	test_combDICT[uid]=tmpDICT
-    
-# Convert 'test_combDICT' into a list of dictionaries (of LIDs)
-test_lsOfDicts=[]
-for uid in test_unqLikesUIDs:
-	test_lsOfDicts.append(test_combDICT[uid])
+    # Convert list of UID and LID pairs into a dictionary indexed by UIDs
+    test_aDictLikes2 = {}
+    for aUID in test_unqLikesUIDs:
+        test_aDictLikes2[aUID]=[]
+
+    for row in test_allLikesLS:
+        test_aDictLikes2[row[0]].append(row[1])
+
+    # test_aDictLikes2["dummy"] = unqLikesLIDs
 
 
-# Create a dictionary of dummy LID values to cover ALL LIDs in the training dataset, this way the test and training like matrices have the same number of columns
-dummyDICT = {}
-for row in unqLikesLIDs:
-    dummyDICT[str(row)] = 1
+    # Convert into a dictionary (by UIDs) of dictionaries (by LIDs)
+    test_combDICT = {}
+    for uid in test_unqLikesUIDs:
+        tmpDICT={}
+        tmpLS = test_aDictLikes2[uid]
+        for row in tmpLS:
+            tmpDICT[str(row)]=1
+        test_combDICT[uid]=tmpDICT
+        
+    # Convert 'test_combDICT' into a list of dictionaries (of LIDs)
+    test_lsOfDicts=[]
+    for uid in test_unqLikesUIDs:
+        test_lsOfDicts.append(test_combDICT[uid])
 
-# Append the dummy dictionary to the list of dictionaries and append the UID 'dummy' to the list of UIDs
-test_lsOfDicts.append(dummyDICT)
-test_unqLikesUIDs.append("dummy")
+
+    # Create a dictionary of dummy LID values to cover ALL LIDs in the training dataset, this way the test and training like matrices have the same number of columns
+    dummyDICT = {}
+    for row in unqLikesLIDs:
+        dummyDICT[str(row)] = 1
+
+    # Append the dummy dictionary to the list of dictionaries and append the UID 'dummy' to the list of UIDs
+    test_lsOfDicts.append(dummyDICT)
+    test_unqLikesUIDs.append("dummy")
 
 
-# Vectorize the list of dictionaries in 'test_lsOfDicts' to get the UID/LID matrix for the test data
-test_v = DictVectorizer()
-test_likesMAT=test_v.fit_transform(test_lsOfDicts)
+    # Vectorize the list of dictionaries in 'test_lsOfDicts' to get the UID/LID matrix for the test data
+    test_v = DictVectorizer()
+    test_likesMAT = test_v.fit_transform(test_lsOfDicts)
 
-# tmp0 = test_likesMAT * np.ones((test_likesMAT.shape[1], 1))
+    # tmp0 = test_likesMAT * np.ones((test_likesMAT.shape[1], 1))
 
-print("done with processing likes matrix from test data")
+    print("done with processing likes matrix from test data")
+
+    return test_likesMAT
 
 
 
 # Import the profiles from the training dataset
 ###############
-dfPROFS = pd.read_csv(pathPROFs + "/profile.csv")
+def impTrainProfs (pathPROFs, unqLikesUIDs):
+    dfPROFS = pd.read_csv(pathPROFs + "/profile.csv")
 
-# Get the values of the relevant columns and convert them to a list
-profiles = dfPROFS.ix[:,1:9].values.copy()
-profilesLSo = profiles.tolist().copy()
+    # Get the values of the relevant columns and convert them to a list
+    profiles = dfPROFS.ix[:,1:9].values.copy()
+    profilesLSo = profiles.tolist().copy()
 
-# Categorize the ages
-profilesLS=[]
-for row in profilesLSo:
-	tmpLS=row
-	tmpAGE=row[1]
+    # Categorize the ages
+    profilesLS=[]
+    for row in profilesLSo:
+        tmpLS=row
+        tmpAGE=row[1]
 
-	if tmpAGE < 25:
-		tmpLS[1]=1
-	elif tmpAGE < 35:
-		tmpLS[1]=2
-	elif tmpAGE < 50:
-		tmpLS[1]=3
-	else:
-		tmpLS[1]=4
+        if tmpAGE < 25:
+            tmpLS[1]=1
+        elif tmpAGE < 35:
+            tmpLS[1]=2
+        elif tmpAGE < 50:
+            tmpLS[1]=3
+        else:
+            tmpLS[1]=4
 
-	profilesLS.append(tmpLS)
+        profilesLS.append(tmpLS)
 
 
-# Align the profiles data with the indexing of the likes data
-profsTOlikes=[]
-for i in range(len(profilesLS)):
-	profsTOlikes.append([])
+    # Align the profiles data with the indexing of the likes data
+    profsTOlikes=[]
+    for i in range(len(profilesLS)):
+        profsTOlikes.append([])
 
-for row in profilesLS:
-	tmpIND = unqLikesUIDs.index(row[0])
-	profsTOlikes[tmpIND]=row
+    for row in profilesLS:
+        tmpIND = unqLikesUIDs.index(row[0])
+        profsTOlikes[tmpIND]=row
 
-profsTOlikes1=list(map(list, zip(*profsTOlikes)))
+    profsTOlikes1=list(map(list, zip(*profsTOlikes)))
 
-print("finished processing profile matrix from training data")
+    print("finished processing profile matrix from training data")
+
+    return profsTOlikes1
 
 
 
 # Import the profiles from the test dataset
 ###############
-test_dfPROFS = pd.read_csv(test_pathPROFs + "/profile.csv")
+def impTestProfs(test_pathPROFs, test_unqLikesUIDs):
+    test_dfPROFS = pd.read_csv(test_pathPROFs + "/profile.csv")
 
-# Get the values of the relevant columns and convert them to a list
-test_profiles = test_dfPROFS.ix[:,1].values.copy()
-test_profilesLSo = test_profiles.tolist().copy()
+    # Get the values of the relevant columns and convert them to a list
+    test_profiles = test_dfPROFS.ix[:,1].values.copy()
+    test_profilesLSo = test_profiles.tolist().copy()
 
-# Prep the profile data from the test dataset in the same manner as the profile data from the training dataset
-test_profilesLS=[]
-for row in test_profilesLSo:
-	tmpLS=row
-	test_profilesLS.append(tmpLS)
+    # Prep the profile data from the test dataset in the same manner as the profile data from the training dataset
+    test_profilesLS=[]
+    for row in test_profilesLSo:
+        tmpLS=row
+        test_profilesLS.append(tmpLS)
 
-test_profilesLS.append("dummy") # Append the 'dummy' User ID described eariler
+    test_profilesLS.append("dummy") # Append the 'dummy' User ID described eariler
 
 
-# Align the profiles data with the indexing of the likes data and generate a list of User IDs with no likes information in the test dataset
-test_profsTOlikes=[]
-for i in range(len(test_unqLikesUIDs)):
-	test_profsTOlikes.append([])
+    # Align the profiles data with the indexing of the likes data and generate a list of User IDs with no likes information in the test dataset
+    test_profsTOlikes=[]
+    for i in range(len(test_unqLikesUIDs)):
+        test_profsTOlikes.append([])
 
-notINlist = []
-for row in test_profilesLS:
-    if row in test_unqLikesUIDs:
-	    tmpIND = test_unqLikesUIDs.index(row)
-    else:
-        notINlist.append(row)
-    test_profsTOlikes[tmpIND]=row
+    notINlist = []
+    for row in test_profilesLS:
+        if row in test_unqLikesUIDs:
+            tmpIND = test_unqLikesUIDs.index(row)
+        else:
+            notINlist.append(row)
+        test_profsTOlikes[tmpIND]=row
 
-test_profsTOlikes1=list(map(list, zip(*test_profsTOlikes)))
+    test_profsTOlikes1=list(map(list, zip(*test_profsTOlikes)))
 
-print("finished processing profile matrix from test data")
+    print("finished processing profile matrix from test data")
+
+    return test_profsTOlikes1
 
 
 
